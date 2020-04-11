@@ -1,0 +1,164 @@
+@import url(./bootstrap.min.css);
+@import url(https://fonts.googleapis.com/css?family=Lobster|Raleway|Gotu|Anton|JosefinSans|Pacifico);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css);
+@import url(https://use.fontawesome.com/releases/v5.5.0/css/all.css);
+@import url(https://fonts.googleapis.com/css?family=Bungee|Bungee+Shade|Monoton|Rubik:900|Bungee+Inline|Cinzel|Fugaz+One|Kodchasan|Poiret+One|Prosto+One|Raleway+Dots|Rubik|Jaldi);
+
+
+
+*{
+  box-sizing: border-box;
+}
+body{
+  background-image: url("../assets/background1.jpg");
+  background-size: cover;
+  min-height: 100vh;
+  padding-top:4vh;
+  font-family: Raleway;
+  color: wheat;
+}
+
+h1, h2, h3{
+  font-family: Pacifico;
+  margin:0;
+}
+
+h1{
+  text-align: left;
+  font-size: 40px;
+  text-transform: uppercase;
+}
+
+.page{
+  background-color:rgb(116, 4, 4);
+  background: linear-gradient(rgb(116, 4, 4),rgb(168, 4, 4));
+  margin:0 5vw;
+  padding-bottom: 20px;
+}
+
+
+nav a{
+  font-family: Lobster;
+  font-size:120%;
+  color: wheat;
+  text-decoration: none;
+}
+nav a:hover{
+  color: black;
+  text-decoration: none;
+}
+nav a:hover h1{
+  color: black;
+}
+
+#cart{
+  background-color: lightgray;
+  /*width: 23vw;
+  display:inline-block;*/
+  vertical-align: top;
+  float: right;
+  margin-right:1vw;
+}
+
+#search{
+  width: calc(100% - 8px);
+  display:block;
+  border-radius:7px;
+  border:1px solid gray;
+  margin:15px 0;
+  font-family:Lobster;
+  padding:3px;
+}
+
+.room{
+  /*display:none;*/
+  margin-bottom:5px;
+}
+
+.content>p{
+
+}
+
+.content>button{
+  font-family: Raleway;
+}
+
+
+.room img{
+  width: 30%;
+  float: right;
+  margin-bottom:10px;
+  border:1px solid gray;
+}
+
+.room.big{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background:orange;
+}
+
+.room.big img{
+  width: 75vw;
+}
+
+#cart ul{
+  list-style: none;
+  padding:0;
+}
+
+#cart li{
+  overflow:auto;
+  margin-bottom: 3px;
+}
+
+#cart li>span{
+  float:right;
+}
+
+#cart li.total{
+  border-top:1px dashed gray;
+  padding-top:6px;
+  margin-top:6px;
+}
+
+.corners{
+  border-radius: 10px;
+  border:1px solid wheat;
+}
+
+.padding{
+  padding: 10px;
+}
+
+.transp{
+  opacity: 0.9;
+}
+
+.clearfix{
+  overflow: auto;
+}
+
+.basket{
+
+  z-index:2;
+}
+
+.basket>.overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color:rgba(0,0,0,0.5);
+}
+
+.basket>.jumbotron{
+  position:fixed;
+  left:10vh;
+  right:10vh;
+  top:15vh;
+  background-color:#aabbcc;
+}

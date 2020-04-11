@@ -1,0 +1,27 @@
+  <section>
+      <Room
+      :v-for="room in rooms"
+      :key="room.id"
+      :room="room"
+      :addToBooking ="addToBooking"
+      />
+
+  </section>
+
+<script>
+import Room from "@/components/Room";
+export default {
+  components:{
+    Room
+  },
+  data(){
+    return{
+      rooms:[]
+    }
+
+  }
+};
+</script>
+
+    <section class="d-flex justify-content-between">
+
