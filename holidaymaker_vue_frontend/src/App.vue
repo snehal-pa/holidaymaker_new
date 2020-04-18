@@ -19,5 +19,14 @@
   </div>
 </template>
 
+<script>
+import {mapState} from "vuex"
+export default {
+  computed:{
+    ...mapState(["logIn"])
+  }
+}
+</script>
+
 <style src="@/styles/style.css">
 </style>

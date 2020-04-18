@@ -2,6 +2,7 @@ package com.example.demo.rest;
 
 import com.example.demo.entity.Customer;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.service.UserService;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("rest/customer")
 public class CustomerController {
+
+    @Autowired
+    private UserService userService;
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -22,12 +27,13 @@ public class CustomerController {
     @PostMapping
     public Customer createUser(@RequestBody Customer customer) {
 
-        return customerRepository.save(customer);
+        //return customerRepository.save(customer);
+        return userService.registerUser(customer);
     }
-    @GetMapping("/login/{id}")
-    public String login(@PathVariable int id, @RequestParam(required=false) String displayName){
-        return "You (" + id + ", name: " + displayName +") just logged in";
-    }
+//    @GetMapping("/login/{id}")
+//    public String login(@PathVariable int id, @RequestParam(required=false) String displayName){
+//        return "You (" + id + ", name: " + displayName +") just logged in";
+//    }
     @GetMapping("{id}")
     public Optional<Customer> getSpecificCustomer(@PathVariable int id) {
         return customerRepository.findById(id);

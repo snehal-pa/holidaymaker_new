@@ -17,6 +17,19 @@ body{
   font-family: Raleway;
   color: wheat;
 }
+aside{
+
+  background-color: rgb(187, 81, 10);
+
+}
+aside label{
+  font-family: Raleway;
+ 
+}
+
+label{
+  font-family:Lobster ;
+}
 
 h1, h2, h3{
   font-family: Pacifico;
@@ -30,8 +43,8 @@ h1{
 }
 
 .page{
-  background-color:rgb(116, 4, 4);
-  background: linear-gradient(rgb(116, 4, 4),rgb(168, 4, 4));
+  background-color:rgb(139, 51, 9);
+  /*background: linear-gradient(rgb(116, 4, 4),rgb(168, 4, 4));*/
   margin:0 5vw;
   padding-bottom: 20px;
 }
@@ -74,6 +87,9 @@ nav a:hover h1{
   /*display:none;*/
   margin-bottom:5px;
 }
+.content{
+
+}
 
 .content>p{
 
@@ -86,7 +102,7 @@ nav a:hover h1{
 
 .room img{
   width: 30%;
-  float: right;
+  float: left;
   margin-bottom:10px;
   border:1px solid gray;
 }

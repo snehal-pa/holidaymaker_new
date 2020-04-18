@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,6 +14,22 @@ public class Hotel {
 
     @OneToMany(mappedBy = "hotel")
     private Set<Room> rooms;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name="Hotel_facility",
+            joinColumns = {
+                    @JoinColumn(name="hotelId")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name="f_id")
+            }
+
+    )
+    private Set<Facility> facilities;
+
+    public Hotel() {
+    }
 
     public int getHotelId() {
         return hotelId;

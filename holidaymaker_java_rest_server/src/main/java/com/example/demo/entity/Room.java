@@ -103,6 +103,10 @@ public class Room {
 //        this.maxKids = maxKids;
 //    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public boolean isBooked() {
         return isBooked;
     }

@@ -23,11 +23,14 @@
         </div>
 
         <div class="text-center mt-4">
-          <button class="btn btn-warning btn-lg" type="submit">Login</button>
+          <button class="btn btn-warning btn-lg" type="submit" @click="springSignIn">Login</button>
         </div>
         <hr class="bg-warning mt-5" />
-        <p>Not a member?</p>
+        <div class="d-flex justify-content-end">
+        <p class="mr-2 mt-2">Not a member?</p>
         <button type="button" class="btn btn-outline-warning" @click="logIn=false">Sign up</button>
+
+        </div>
       </form>
     </div>
     <div v-if="!logIn">
@@ -35,23 +38,34 @@
     </div>
     <div v-if="showLoginButton">
       <hr class="bg-warning mt-5" />
-      <P>You are registered</P>
-      <button type="button" class="btn btn-outline-warning" @click="logIn = true">Log in</button>
+      <P>Hey {{registeredFirstName}}! Welcome to Holiday-maker</P>
+      <button type="button" class="btn btn-outline-warning" @click="showLoginPage">Log in</button>
     </div>
   </div>
 </template>
 
 <script>
+import { springLogin } from "@/helper";
+
 import Signup from "@/components/Signup";
+import { mapState,mapGetters,mapActions } from "vuex";
+
 export default {
   components: {
     Signup
   },
+
+  computed: {
+    ... mapState(['customers']),
+    ...mapGetters(['allCustomers','getCheckedFacilities'])
+  },
+
   data() {
     return {
       logIn: true,
       errors: [],
       showLoginButton: false,
+      registeredFirstName:"",
 
       loginUser: {
         email: "",
@@ -67,11 +81,16 @@ export default {
     };
   },
   methods: {
-    showSignupForm: function(e) {
-      this.logIn = false;
-      e.preventDefault();
+    ...mapActions(["getCustomers","addCustomer"]),
+
+    springSignIn(e){
+        e.preventDefault();
+        springLogin(this.loginUser.email,this.loginUser.password);
     },
-    checkForm: function(e) {
+
+    checkForm(e) {
+      e.preventDefault();
+
       if (
         this.signUpUser.firstName != "" &&
         this.signUpUser.email != "" &&
@@ -79,8 +98,12 @@ export default {
       ) {
         this.showLoginButton = true;
         this.registerThisCustomer();
+        this.registeredFirstName = this.signUpUser.firstName;
+        this.clearForm();
+        
         return true;
       }
+      this.errors = [];
 
       if (this.signUpUser.firstName == "") {
         this.errors.push("Name required.");
@@ -91,16 +114,37 @@ export default {
       if (this.signUpUser.password == "") {
         this.errors.push("Password required.");
       }
-
-      e.preventDefault();
     },
 
-    registerThisCustomer: function() {
+    registerThisCustomer(){
+      const newCustomer = { firstName: this.signUpUser.firstName, 
+                            lastName:this.signUpUser.lastName,
+                            email: this.signUpUser.email,
+                            password: this.signUpUser.password
+
+      }
+      this.addCustomer(newCustomer);
       console.log("Hey " + this.signUpUser.firstName + " you are registered");
       /*e.preventDefault();*/
     },
 
-    login() {
+    showLoginPage(e){
+      e.preventDefault();
+      this.logIn =true;
+      this.showLoginButton=false;
+
+
+    },
+
+    clearForm(){
+        this.signUpUser.firstName ="",
+        this.signUpUser.lastName ="",
+        this.signUpUser.email ="",
+        this.signUpUser.password =""
+
+    },
+
+    /*login() {
       if (this.loginUser.email != "" && this.loginUser.password != "") {
         if (
           this.loginUser.email == this.$parent.mockAccount.username &&
@@ -114,7 +158,7 @@ export default {
       } else {
         console.log("A username and password must be present");
       }
-    }
+    }*/
   }
 };
 </script>

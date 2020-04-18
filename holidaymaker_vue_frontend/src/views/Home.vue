@@ -1,49 +1,87 @@
 <template>
-  <div>
-    <form class="inputs" >
-      <div class="d-flex flex-column">
-        <label for="locations">Choose a Location:</label>
-        <select id="locations" v-model="selectedLocation">
-          <option>A</option>
-          <option>B</option>
-          <option>C</option>
+  <div class="container">
+    <div class="row">
+      <div class="col d-flex justify-content-end mr-5">
+        <button type="button" class="btn btn-warning btn-sm" @click="showAll">show all rooms</button>
+      </div>
+    </div>
+
+    <form class="row inputs pb-3">
+      <div class="col d-flex flex-column">
+        <label class="mb-2" for="locations">Locations</label>
+        <select class="custom-select" id="locations" v-model="selectedLocation">
+          <option v-for="location in allLocations" :key="location">{{location}}</option>
         </select>
       </div>
-      <div class="d-flex flex-column">
-        <label for="people">People</label>
-        <select id="locations" v-model="selectedPeople">
+      <div class="col d-flex flex-column">
+        <label class="mb-2" for="people">Guests</label>
+        <select class="custom-select" id="locations" v-model="selectedPeople">
           <option v-for="i in 10" :key="i">{{i}}</option>
         </select>
-
       </div>
-      <div class="d-flex flex-column">
+      <div class="col d-flex flex-column">
         <label for="check-in">Check-in</label>
-        <input id="check-in" type="date" v-model="check_in" />
+        <input class="custom-select" id="check-in" type="date" v-model="check_in" />
       </div>
-      <div class="d-flex flex-column">
+      <div class="col d-flex flex-column">
         <label for="check-out">Check-out</label>
-        <input id="check-out" type="date" v-model="check_out" />
+        <input class="custom-select" id="check-out" type="date" v-model="check_out" />
       </div>
-      <div>
+      <div class="col">
         <button
           type="button"
-          class="btn btn-light btn-lg mt-4"
-          @click="showGallary = true"
+          class="btn btn-warning btn-lg mt-4"
+          @click="filterRoom"
         >Check avaibility</button>
       </div>
     </form>
-    <section v-if="showGallary">
-      <Room v-for="room in rooms" :key="room.id" :room="room" :addToBooking="addToBooking"></Room>
+    <hr class="bg-warning" />
+    <section class="container" v-if="showGallary">
+      <div class="row">
+        <aside class="col-3 mt-5">
+          <h4>Facilities</h4>
+          <br />
+          <form action="/action_page.php">
+            <div v-for="f in allFacilities" :key="f">
+              <input type="checkbox" v-model="checkedFacilities" :value="f.name" />
+              <label :for="f">{{ f.name }}</label>
+              <br />
+            </div>
+
+            <span>You selected: {{ checkedFacilities }}</span>
+          </form>
+        </aside>
+        <div class="col-9">
+          <Room
+            v-for="room in filteredRoom"
+            :key="room.id"
+            :room="room"
+            :changeRoomStatus="changeRoomStatus"
+          ></Room>
+        </div>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
-import { fetch2 } from "@/helper";
+/*import { fetch2 } from "@/helper";*/
 import Room from "@/components/Room";
+import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   components: {
     Room
+  },
+
+  computed: {
+    ...mapGetters([
+      "allRooms",
+      "getSelectedRoom",
+      "allLocations",
+      "allBookings",
+      "allFacilities"
+    ]),
+    ...mapState(["rooms", "selectedRoom", "locations", "bookings"])
   },
 
   data() {
@@ -51,72 +89,85 @@ export default {
       check_in: "",
       check_out: "",
       selectedLocation: "",
-      selectedPeople:"",
-      people: "",
-      rooms: [],
-      showGallary: false
+      selectedPeople: "",
+      showGallary: false,
+      showLoginForm: false,
+      checkedFacilities: [],
+      filteredRoom: []
     };
   },
 
-  mounted(){
+  mounted() {
     this.getRooms();
+    this.getBookings();
+    this.getFacilities();
   },
 
   methods: {
-    getRooms: async function() {
-      this.rooms = await fetch2("room");
+    /*...mapMutations([]),*/
+    ...mapActions([
+      "getRooms",
+      "roomStatusChanged",
+      "getBookings",
+      "getFacilities"
+    ]),
+
+    changeRoomStatus(room) {
+      this.roomStatusChanged(room);
     },
-    addToBooking: function(){
-      
-      console.log('hi')
+
+    addToBooking: function() {
+      console.log("hi");
+    },
+
+    showAll() {
+      this.filteredRoom = this.allRooms;
+      this.showGallary = true;
+    },
+
+    filterRoom() {
+      this.filteredRoom = this.allRooms.filter(
+        r =>
+          r.hotel.location == this.selectedLocation &&
+          r.maxPeople >= this.selectedPeople
+      );
+
+      const sameDateBookings = this.allBookings.filter(
+        b => this.check_in >= b.check_in && this.check_in < b.check_out
+      );
+
+      for (let b of sameDateBookings) {
+        for (let i = 0; i < this.filteredRoom.length; i++) {
+          if (this.filteredRoom[i].id == b.room.id) {
+            this.filteredRoom.splice(i, 1);
+          }
+        }
+      }
+
+      console.log(sameDateBookings);
+      this.showGallary = true;
     }
+  },
+  created() {
+    console.log("hi");
+    console.log(this.allRooms);
+    console.log(this.allBookings);
   }
 };
 </script>
 
 <style scoped>
-.inputs {  
-  display: flex;
-  /*flex-flow: row wrap;
-  align-items: center;*/
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.inputs label {
-  margin: 5px 10px 5px 0;
-}
-
-.inputs input {
-  vertical-align: middle;
-  margin: 5px 10px 5px 0;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ddd;
+.custom-select select {
+  display: none;
 }
 
 .btn {
-  padding: 10px 20px;
-  background-color: rgb(248, 232, 14);
   border: 1px solid #ddd;
-  color: rgb(121, 10, 10);
   cursor: pointer;
 }
 
 .btn:hover {
-  background-color: royalblue;
+  background-color: rgb(192, 107, 11);
 }
-
-@media (max-width: 800px) {
-  .inputs input {
-    margin: 10px 0;
-  }
-  
-  .inputs {
-    flex-direction: column;
-    /*align-items: stretch;*/
-  }
-}
-
 </style>
 

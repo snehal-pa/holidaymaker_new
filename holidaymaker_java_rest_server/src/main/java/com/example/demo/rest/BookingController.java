@@ -42,7 +42,7 @@ public class BookingController {
     }
 
     @PutMapping("{id}")
-    public Booking replaceEmployee(@RequestBody Booking newBooking, @PathVariable int id) {
+    public Booking updateBooking(@RequestBody Booking newBooking, @PathVariable int id) {
 
         return bookingRepository.findById(id)
                 .map(booking -> {
