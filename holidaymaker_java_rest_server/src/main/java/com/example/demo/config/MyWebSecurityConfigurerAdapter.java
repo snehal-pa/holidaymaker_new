@@ -19,6 +19,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+//                .cors().disable()
                 .csrf().disable()
                 .httpBasic()
                 .and()
@@ -33,8 +34,8 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 //                .antMatchers("/**").permitAll()
 //                .anyRequest().authenticated()
 //                .and()
-                .formLogin()
-                .loginPage("/login")
+//                .formLogin()
+//                .loginPage("/login")
 //                .permitAll()
 //                .and()
 //                .logout()

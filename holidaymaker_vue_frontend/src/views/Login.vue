@@ -21,15 +21,15 @@
             v-model="loginUser.password"
           />
         </div>
-
         <div class="text-center mt-4">
-          <button class="btn btn-warning btn-lg" type="submit" @click="springSignIn">Login</button>
+          <router-link to="/booking">
+            <button class="btn btn-warning btn-lg" @click="springSignIn">Login</button>
+          </router-link>
         </div>
         <hr class="bg-warning mt-5" />
         <div class="d-flex justify-content-end">
-        <p class="mr-2 mt-2">Not a member?</p>
-        <button type="button" class="btn btn-outline-warning" @click="logIn=false">Sign up</button>
-
+          <p class="mr-2 mt-2">Not a member?</p>
+          <button type="button" class="btn btn-outline-warning" @click="logIn=false">Sign up</button>
         </div>
       </form>
     </div>
@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import { springLogin } from "@/helper";
+import { /*springLogin, */ fetch2 } from "@/helper";
 
 import Signup from "@/components/Signup";
-import { mapState,mapGetters,mapActions } from "vuex";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -56,8 +56,8 @@ export default {
   },
 
   computed: {
-    ... mapState(['customers']),
-    ...mapGetters(['allCustomers','getCheckedFacilities'])
+    ...mapState(["customers"]),
+    ...mapGetters(["allCustomers", "getCheckedFacilities"])
   },
 
   data() {
@@ -65,7 +65,7 @@ export default {
       logIn: true,
       errors: [],
       showLoginButton: false,
-      registeredFirstName:"",
+      registeredFirstName: "",
 
       loginUser: {
         email: "",
@@ -81,11 +81,15 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getCustomers","addCustomer"]),
+    ...mapActions(["getCustomers", "addCustomer", "addToBookingStore"]),
+    ...mapMutations(["SET_CUST_ID", "SET_CURRENT_CUSTOMER"]),
 
-    springSignIn(e){
-        e.preventDefault();
-        springLogin(this.loginUser.email,this.loginUser.password);
+    async springSignIn(e) {
+      e.preventDefault();
+      const customer = await fetch2("customer/" + this.loginUser.email);
+      //springLogin(this.loginUser.email,this.loginUser.password);
+      this.SET_CUST_ID(customer.id);
+      this.SET_CURRENT_CUSTOMER(customer);
     },
 
     checkForm(e) {
@@ -100,7 +104,7 @@ export default {
         this.registerThisCustomer();
         this.registeredFirstName = this.signUpUser.firstName;
         this.clearForm();
-        
+
         return true;
       }
       this.errors = [];
@@ -116,33 +120,30 @@ export default {
       }
     },
 
-    registerThisCustomer(){
-      const newCustomer = { firstName: this.signUpUser.firstName, 
-                            lastName:this.signUpUser.lastName,
-                            email: this.signUpUser.email,
-                            password: this.signUpUser.password
-
-      }
+    registerThisCustomer() {
+      const newCustomer = {
+        firstName: this.signUpUser.firstName,
+        lastName: this.signUpUser.lastName,
+        email: this.signUpUser.email,
+        password: this.signUpUser.password
+      };
       this.addCustomer(newCustomer);
       console.log("Hey " + this.signUpUser.firstName + " you are registered");
       /*e.preventDefault();*/
     },
 
-    showLoginPage(e){
+    showLoginPage(e) {
       e.preventDefault();
-      this.logIn =true;
-      this.showLoginButton=false;
-
-
+      this.logIn = true;
+      this.showLoginButton = false;
     },
 
-    clearForm(){
-        this.signUpUser.firstName ="",
-        this.signUpUser.lastName ="",
-        this.signUpUser.email ="",
-        this.signUpUser.password =""
-
-    },
+    clearForm() {
+      (this.signUpUser.firstName = ""),
+        (this.signUpUser.lastName = ""),
+        (this.signUpUser.email = ""),
+        (this.signUpUser.password = "");
+    }
 
     /*login() {
       if (this.loginUser.email != "" && this.loginUser.password != "") {

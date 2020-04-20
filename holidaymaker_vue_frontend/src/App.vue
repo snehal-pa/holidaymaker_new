@@ -8,6 +8,8 @@
         <router-link to="/about" class="text-sm-right nav-link">About us</router-link>
         <router-link to="/contact" class="text-sm-right nav-link">Contact us</router-link>
         <router-link to="/login" class="text-sm-right nav-link">Login</router-link>
+        <router-link to="/booking" class="text-sm-right nav-link">My Booking</router-link>
+
 
       </nav>
     </header>

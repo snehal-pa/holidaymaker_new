@@ -11,11 +11,19 @@ public class Facility {
     private int id;
     private String name;
 
+    @ManyToMany(mappedBy = "facilities",cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private Set<Hotel> hotels;
+
     public Facility() {
     }
 
-    @ManyToMany(mappedBy = "facilities",cascade = {CascadeType.ALL})
-    private Set<Hotel> hotels;
+//    public Set<Hotel> getHotels() {
+//        return hotels;
+//    }
+
+    public void setHotels(Set<Hotel> hotels) {
+        this.hotels = hotels;
+    }
 
     public int getId() {
         return id;

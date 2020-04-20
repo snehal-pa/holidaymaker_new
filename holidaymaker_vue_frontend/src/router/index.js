@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Login from "../views/Login.vue";
+import Booking from "../views/Booking.vue";
 
 
 Vue.use(VueRouter);
@@ -32,6 +33,11 @@ const routes = [
     name: "Login",
     component: Login,
   },
+  {
+    path : "/booking",
+    name: "Booking",
+    component: Booking,
+  }
 ];
 
 const router = new VueRouter({

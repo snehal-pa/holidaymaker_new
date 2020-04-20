@@ -12,6 +12,9 @@
   </div>
 </template>
 
+      <p v-for="f in room.hotel.facilities" :key="f.id">{{f.name}},</p>
+
+
 <script>
 export default {
   // "props" är egna HTML-attribut som vi kan låta en annan komponent skicka in data med.

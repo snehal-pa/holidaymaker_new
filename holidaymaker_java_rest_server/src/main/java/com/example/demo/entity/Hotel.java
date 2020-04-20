@@ -15,7 +15,7 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     private Set<Room> rooms;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
     @JoinTable(
             name="Hotel_facility",
             joinColumns = {
@@ -53,6 +53,17 @@ public class Hotel {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+//    public void setFacilities(Set<Facility> facilities){
+//        for(Facility f: facilities){
+//            f.getHotels().add(this);
+//            this.facilities.add(f);
+//        }
+//    }
+
+    public Set<Facility> getFacilities() {
+        return facilities;
     }
 
 //    public Set<Room> getRooms() {

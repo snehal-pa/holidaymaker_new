@@ -1,16 +1,10 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col d-flex justify-content-end mr-5">
-        <button type="button" class="btn btn-warning btn-sm" @click="showAll">show all rooms</button>
-      </div>
-    </div>
-
     <form class="row inputs pb-3">
       <div class="col d-flex flex-column">
         <label class="mb-2" for="locations">Locations</label>
         <select class="custom-select" id="locations" v-model="selectedLocation">
-          <option v-for="location in allLocations" :key="location">{{location}}</option>
+          <option v-for="location in allLocations" :key="location.id">{{location}}</option>
         </select>
       </div>
       <div class="col d-flex flex-column">
@@ -35,6 +29,10 @@
         >Check avaibility</button>
       </div>
     </form>
+    <div class="row  d-flex justify-content-around">
+      <button type="button" class="btn btn-warning btn-sm" @click="showAll"> All rooms</button>
+    </div>
+    
     <hr class="bg-warning" />
     <section class="container" v-if="showGallary">
       <div class="row">
@@ -42,21 +40,22 @@
           <h4>Facilities</h4>
           <br />
           <form action="/action_page.php">
-            <div v-for="f in allFacilities" :key="f">
+            <div v-for="f in allFacilities" :key="f.id">
               <input type="checkbox" v-model="checkedFacilities" :value="f.name" />
               <label :for="f">{{ f.name }}</label>
               <br />
             </div>
 
-            <span>You selected: {{ checkedFacilities }}</span>
+            <br />
+            <button class="btn btn-warning btn-sm" type="button" @click="filterByFacility">check</button>
           </form>
         </aside>
         <div class="col-9">
           <Room
-            v-for="room in filteredRoom"
+            v-for="room in filteredRooms"
             :key="room.id"
             :room="room"
-            :changeRoomStatus="changeRoomStatus"
+            :addToBooking="addToBooking"
           ></Room>
         </div>
       </div>
@@ -67,7 +66,7 @@
 <script>
 /*import { fetch2 } from "@/helper";*/
 import Room from "@/components/Room";
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   components: {
     Room
@@ -79,7 +78,8 @@ export default {
       "getSelectedRoom",
       "allLocations",
       "allBookings",
-      "allFacilities"
+      "allFacilities",
+      "allHotels"
     ]),
     ...mapState(["rooms", "selectedRoom", "locations", "bookings"])
   },
@@ -93,7 +93,9 @@ export default {
       showGallary: false,
       showLoginForm: false,
       checkedFacilities: [],
-      filteredRoom: []
+      filteredRooms: [],
+      filteredHotels: [],
+      filteredRoomsByFacility: []
     };
   },
 
@@ -101,6 +103,7 @@ export default {
     this.getRooms();
     this.getBookings();
     this.getFacilities();
+    this.getHotels();
   },
 
   methods: {
@@ -109,49 +112,94 @@ export default {
       "getRooms",
       "roomStatusChanged",
       "getBookings",
-      "getFacilities"
+      "getFacilities",
+      "getHotels",
+      "addToBookingStore"
     ]),
 
-    changeRoomStatus(room) {
-      this.roomStatusChanged(room);
-    },
+    ...mapMutations(["SET_ROOM_ID","SET_CHECK_IN","SET_CHECK_OUT","setSelectedRoom"]),
 
-    addToBooking: function() {
-      console.log("hi");
-    },
-
-    showAll() {
-      this.filteredRoom = this.allRooms;
+    showAll(e){
+      e.preventDefault();
       this.showGallary = true;
+      this.filteredRooms = this.allRooms
     },
+
+    addToBooking(room) {
+      this.SET_ROOM_ID(room.id)
+      this.SET_CHECK_IN(this.check_in)
+      this.SET_CHECK_OUT(this.check_out)
+      this.setSelectedRoom(room)
+      //this.check_in =""
+      //this.check_out =""
+      //this.roomStatusChanged(room);
+    },
+
 
     filterRoom() {
-      this.filteredRoom = this.allRooms.filter(
-        r =>
-          r.hotel.location == this.selectedLocation &&
-          r.maxPeople >= this.selectedPeople
-      );
+      this.filteredRooms =[];
+      this.filteredRooms = this.allRooms;
+      if (this.selectedLocation != "") {
+        this.filteredRooms = this.filteredRooms.filter(
+          r => r.hotel.location == this.selectedLocation
+        );
+      }
+      if (this.selectedPeople != "") {
+        this.filteredRooms = this.filteredRooms.filter(
+          r => r.maxPeople >= this.selectedPeople
+        );
+      }
+      console.log("Location", this.selectedLocation);
+      console.log("People", this.selectedPeople);
 
       const sameDateBookings = this.allBookings.filter(
         b => this.check_in >= b.check_in && this.check_in < b.check_out
       );
+      console.log(sameDateBookings);
 
       for (let b of sameDateBookings) {
-        for (let i = 0; i < this.filteredRoom.length; i++) {
-          if (this.filteredRoom[i].id == b.room.id) {
-            this.filteredRoom.splice(i, 1);
+        for (let i = 0; i < this.filteredRooms.length; i++) {
+          if (this.filteredRooms[i].id == b.room.id) {
+            this.filteredRooms.splice(i, 1);
           }
         }
       }
 
-      console.log(sameDateBookings);
+      console.log(this.filteredRooms);
+
       this.showGallary = true;
+    },
+
+    filterByFacility(e) {
+      e.preventDefault();
+      this.filteredHotels = [];
+      this.filteredRoomsByFacility = [];
+      for (let h of this.allHotels) {
+        const names = h.facilities.map(function(obj) {
+          return obj.name;
+        });
+        if (this.checkedFacilities.every(f => names.indexOf(f) > -1)) {
+          this.filteredHotels.push(h);
+        }
+      }
+      console.log("filtered hotel", this.filteredHotels);
+
+      for (let h of this.filteredHotels) {
+        for (let r of this.filteredRooms) {
+          if (r.hotel.hotelId === h.hotelId) {
+            this.filteredRoomsByFacility.push(r);
+          }
+        }
+      }
+      console.log("filter by facility", this.filteredRoomsByFacility);
+      this.filteredRooms = this.filteredRoomsByFacility
+
     }
   },
   created() {
-    console.log("hi");
     console.log(this.allRooms);
     console.log(this.allBookings);
+    console.log(this.allHotels);
   }
 };
 </script>

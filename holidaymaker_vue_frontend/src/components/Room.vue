@@ -8,16 +8,15 @@
       <p>Location: {{room.hotel.location}}</p>
       <p>People capacity: {{room.maxPeople}}</p>
       <p>Price: €{{room.price}}</p>
-
-      <i class="fas fa-star" v-for="i in room.rating" :key="i"></i>
-      <i class="far fa-star" v-for="j in (5 -room.rating)" :key="j"></i>
+      <i class="fas fa-star" v-for="k in room.rating" :key="k.index"></i>
+      <i class="far fa-star" v-for="j in (5 -room.rating)" :key="j.index"></i>
     </div>
     <div class="col-3" v-if="room.booked">
       <button disabled class="btn btn-danger btn-lg text-white">Not Available</button>
     </div>
     <div  class="col-3" v-else>
       <router-link to="/Login">
-        <button class="btn btn-warning btn-lg" @click="changeRoomStatus(room)">Book now</button>
+        <button class="btn btn-warning btn-lg" @click="addToBooking(room)">Book now</button>
       </router-link>
     </div>
   </div>
@@ -27,7 +26,7 @@
 import {mapState,mapGetters} from 'vuex'
 export default {
   // "props" är egna HTML-attribut som vi kan låta en annan komponent skicka in data med.
-  props: ["room", "changeRoomStatus"],
+  props: ["room", "addToBooking"],
 
   computed:{
     ...mapGetters(['allBookings']),

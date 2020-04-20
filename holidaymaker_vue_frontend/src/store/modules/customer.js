@@ -2,16 +2,18 @@ import { fetch2,fetch3 } from "@/helper";
 
 const state = {
     customers: [],
-    logIn : true
+    currentCustomer:null
+    //logIn : true
  };
 
 const getters = {
-  allCustomers: state => state.customers
+  allCustomers: state => state.customers,
+  getCurrentCustomer: state => state.currentCustomer
 };
 
 const actions = {
     async getCustomers({commit}){
-        const fetchedCustomers = await fetch2("room");
+        const fetchedCustomers = await fetch2("customer");
         commit('setCustomers',fetchedCustomers);
     },
 
@@ -23,7 +25,8 @@ const actions = {
 
 const mutations = {
     setCustomers :(state,customers)=>(state.customers=customers),
-    addNewCustomer:(state,newCust)=> state.customers.push(newCust)
+    addNewCustomer:(state,newCust)=> state.customers.push(newCust),
+    SET_CURRENT_CUSTOMER:(state,currentC)=> state.currentCustomer =currentC
 };
 
 export default {

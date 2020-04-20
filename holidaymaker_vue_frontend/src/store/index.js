@@ -4,6 +4,7 @@ import rooms from './modules/rooms'
 import customer from './modules/customer'
 import checkBox from './modules/checkBox'
 import booking from './modules/booking'
+import hotel from './modules/hotel'
 
 
 
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     rooms,
     customer,
     checkBox,
-    booking
+    booking,
+    hotel
   }
 })

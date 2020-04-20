@@ -3,8 +3,8 @@ package com.example.demo.rest;
 import com.example.demo.entity.Customer;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.service.UserService;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -24,6 +24,21 @@ public class CustomerController {
         return customerRepository.findAll();
     }
 
+    @GetMapping("/{email}")
+    public Customer getByEmail(@PathVariable String email) {
+
+        Customer c = customerRepository.findByEmail(email);
+//        if (c == null) {
+//            throw new UsernameNotFoundException("Customer not found");
+//        }
+        return c;
+    }
+
+    @GetMapping("/currentUser")
+    public Customer currentUser(){
+        return userService.findCurrentUser();
+    }
+
     @PostMapping
     public Customer createUser(@RequestBody Customer customer) {
 
@@ -34,10 +49,10 @@ public class CustomerController {
 //    public String login(@PathVariable int id, @RequestParam(required=false) String displayName){
 //        return "You (" + id + ", name: " + displayName +") just logged in";
 //    }
-    @GetMapping("{id}")
-    public Optional<Customer> getSpecificCustomer(@PathVariable int id) {
-        return customerRepository.findById(id);
-    }
+//    @GetMapping("{id}")
+//    public Optional<Customer> getSpecificCustomer(@PathVariable Long id) {
+//        return customerRepository.findById(id);
+//    }
 
 
     @DeleteMapping("all")
@@ -46,7 +61,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteCustomer(@PathVariable int id) {
+    public void deleteCustomer(@PathVariable Long id) {
         customerRepository.deleteById(id);
     }
 
