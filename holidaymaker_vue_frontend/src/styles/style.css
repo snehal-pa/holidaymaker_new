@@ -3,6 +3,7 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css);
 @import url(https://use.fontawesome.com/releases/v5.5.0/css/all.css);
 @import url(https://fonts.googleapis.com/css?family=Bungee|Bungee+Shade|Monoton|Rubik:900|Bungee+Inline|Cinzel|Fugaz+One|Kodchasan|Poiret+One|Prosto+One|Raleway+Dots|Rubik|Jaldi);
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap');
 
 
 
@@ -44,7 +45,7 @@ h1{
 
 .page{
   background-color:rgb(139, 51, 9);
-  /*background: linear-gradient(rgb(116, 4, 4),rgb(168, 4, 4));*/
+  /*background: linear-gradient(rgb(139, 51, 9),rgb(236, 129, 129));*/
   margin:0 5vw;
   padding-bottom: 20px;
 }
@@ -53,7 +54,7 @@ h1{
 nav a{
   font-family: Lobster;
   font-size:120%;
-  color: wheat;
+  color:wheat;
   text-decoration: none;
 }
 nav a:hover{
@@ -63,40 +64,9 @@ nav a:hover{
 nav a:hover h1{
   color: black;
 }
-
-#cart{
-  background-color: lightgray;
-  /*width: 23vw;
-  display:inline-block;*/
-  vertical-align: top;
-  float: right;
-  margin-right:1vw;
-}
-
-#search{
-  width: calc(100% - 8px);
-  display:block;
-  border-radius:7px;
+.all-Rooms img{
+  width: 25%;
   border:1px solid gray;
-  margin:15px 0;
-  font-family:Lobster;
-  padding:3px;
-}
-
-.room{
-  /*display:none;*/
-  margin-bottom:5px;
-}
-.content{
-
-}
-
-.content>p{
-
-}
-
-.content>button{
-  font-family: Raleway;
 }
 
 
@@ -104,7 +74,7 @@ nav a:hover h1{
   width: 30%;
   float: left;
   margin-bottom:10px;
-  border:1px solid gray;
+  /*border:1px solid gray;*/
 }
 
 .room.big{
@@ -118,26 +88,6 @@ nav a:hover h1{
 
 .room.big img{
   width: 75vw;
-}
-
-#cart ul{
-  list-style: none;
-  padding:0;
-}
-
-#cart li{
-  overflow:auto;
-  margin-bottom: 3px;
-}
-
-#cart li>span{
-  float:right;
-}
-
-#cart li.total{
-  border-top:1px dashed gray;
-  padding-top:6px;
-  margin-top:6px;
 }
 
 .corners{
@@ -157,24 +107,114 @@ nav a:hover h1{
   overflow: auto;
 }
 
-.basket{
-
-  z-index:2;
+@media (max-width: 425px) {
+  .w-xs-100 {
+     width:100% !important;
+  }
 }
 
-.basket>.overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background-color:rgba(0,0,0,0.5);
+button {
+	box-shadow: 0px 1px 0px 0px #fff6af;
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	background-color:#ffec64;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #ffee66;
+  font-family: Pacifico
+}
+button:hover {
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+}
+button:active {
+	position:relative;
+	top:1px;
 }
 
-.basket>.jumbotron{
-  position:fixed;
-  left:10vh;
-  right:10vh;
-  top:15vh;
-  background-color:#aabbcc;
+
+
+@keyframes click-wave {
+  0% {
+    height: 20px;
+    width: 20px;
+    opacity: 0.35;
+    position: relative;
+  }
+  100% {
+    height: 200px;
+    width: 200px;
+    margin-left: -80px;
+    margin-top: -80px;
+    opacity: 0;
+  }
 }
+
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 13.33333px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  transition: all 0.15s ease-out 0s;
+  background: #cbd1d8;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 0.5rem;
+  outline: none;
+  position: relative;
+  z-index: 1000;
+}
+.option-input:hover {
+  background: #9faab7;
+}
+.option-input:checked {
+  background: #c24b1c;
+}
+.option-input:checked::before {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  font-size: 26.66667px;
+  text-align: center;
+  line-height: 40px;
+}
+.option-input:checked::after {
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #c24b1c;
+  content: "";
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+.option-input.radio {
+  border-radius: 50%;
+}
+.option-input.radio::after {
+  border-radius: 50%;
+}
+
+
+
+        
+

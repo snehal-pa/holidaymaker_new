@@ -5,6 +5,7 @@ import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Login from "../views/Login.vue";
 import Booking from "../views/Booking.vue";
+import Gallary from "../views/Gallary.vue"
 
 
 Vue.use(VueRouter);
@@ -37,6 +38,11 @@ const routes = [
     path : "/booking",
     name: "Booking",
     component: Booking,
+  },
+  {
+    path:"/allrooms",
+    name:"Gallary",
+    component:Gallary
   }
 ];
 

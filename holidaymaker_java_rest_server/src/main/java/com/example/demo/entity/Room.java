@@ -19,17 +19,17 @@ public class Room {
     private int maxPeople;
     //private int maxKids;
     private boolean isBooked;
-    private String image;
+    private int image;
     @OneToOne(mappedBy = "room")
     private Booking booking;
 
     public Room(){}
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
 
     }

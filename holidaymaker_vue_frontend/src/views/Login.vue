@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div v-if="logIn" id="login" class="border border-warning my-3 w-50">
+    <div v-if="logIn" id="login" class="border border-warning my-3 w-xs-100 w-50">
       <form action class="my-form">
-        <p class="h4 text-center mb-4">Log in</p>
+        <p class=" h4 text-center mb-4">Log in</p>
+        <span v-if="emailNotFound">Wrong email-id</span>
         <!-- Email address -->
         <div class="md-form">
           <i class="fas fa-envelope prefix pr-2"></i>
@@ -21,15 +22,15 @@
             v-model="loginUser.password"
           />
         </div>
-        <div class="text-center mt-4">
-          <router-link to="/booking">
-            <button class="btn btn-warning btn-lg" @click="springSignIn">Login</button>
-          </router-link>
+        <div  class="text-center mt-4">
+          <button class="btn btn-lg"  @click="springSignIn">Login</button>
         </div>
+        <router-link v-if="found" to="/booking">go to your reservation</router-link>
+
         <hr class="bg-warning mt-5" />
         <div class="d-flex justify-content-end">
           <p class="mr-2 mt-2">Not a member?</p>
-          <button type="button" class="btn btn-outline-warning" @click="logIn=false">Sign up</button>
+          <button type="button" @click="logIn=false">Sign up</button>
         </div>
       </form>
     </div>
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-import { /*springLogin, */ fetch2 } from "@/helper";
+import { springLogin, fetch2 } from "@/helper";
 
 import Signup from "@/components/Signup";
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
@@ -66,6 +67,8 @@ export default {
       errors: [],
       showLoginButton: false,
       registeredFirstName: "",
+      emailNotFound: false,
+      found:false,
 
       loginUser: {
         email: "",
@@ -87,9 +90,14 @@ export default {
     async springSignIn(e) {
       e.preventDefault();
       const customer = await fetch2("customer/" + this.loginUser.email);
-      //springLogin(this.loginUser.email,this.loginUser.password);
-      this.SET_CUST_ID(customer.id);
-      this.SET_CURRENT_CUSTOMER(customer);
+      if (customer != null) {
+        springLogin(this.loginUser.email, this.loginUser.password);
+        this.SET_CUST_ID(customer.id);
+        this.SET_CURRENT_CUSTOMER(customer);
+        this.found =true
+      } else {
+        this.emailNotFound = true;
+      }
     },
 
     checkForm(e) {
@@ -145,32 +153,12 @@ export default {
         (this.signUpUser.password = "");
     }
 
-    /*login() {
-      if (this.loginUser.email != "" && this.loginUser.password != "") {
-        if (
-          this.loginUser.email == this.$parent.mockAccount.username &&
-          this.loginUser.password == this.$parent.mockAccount.password
-        ) {
-          this.$emit("authenticated", true);
-          this.$router.replace({ name: "secure" });
-        } else {
-          console.log("The username and / or password is incorrect");
-        }
-      } else {
-        console.log("A username and password must be present");
-      }
-    }*/
-  }
+   }
 };
 </script>
 
 <style scoped>
 #login {
-  width: 500px;
-  margin: auto;
-  padding: 20px;
-}
-#signUp {
   width: 500px;
   margin: auto;
   padding: 20px;

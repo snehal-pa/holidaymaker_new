@@ -1,5 +1,5 @@
 <template>
-  <div id="signUp" class="border border-warning my-3 w-50">
+  <div id="signUp" class="border border-warning my-3 w-xs-100 w-50 ">
     <form>
       <p class="h4 text-center mb-4">Sign up</p>
       <div v-if="errors.length">
@@ -10,10 +10,10 @@
       </div>
       <div class="d-flex justify-content-between">
         <div>
-          <label for="defaultFormRegisterFirstNameEx" class="grey-text">Your Firstname</label>
+          <label for="FirstNameEx" class="grey-text">Your Firstname</label>
           <input
             type="text"
-            id="defaultFormRegisterFirstNameEx"
+            id="FirstNameEx"
             class="form-control"
             v-model="signUpUser.firstName"
           />
@@ -45,7 +45,7 @@
         v-model="signUpUser.password"
       />
       <div class="text-center mt-4">
-        <button class="btn btn-warning btn-lg" type="submit" @click="checkForm">Register</button>
+        <button class="btn btn-lg" type="submit" @click="checkForm">Register</button>
       </div>
     </form>
   </div>
@@ -61,4 +61,7 @@ export default {
   margin: auto;
   padding: 20px;
 }
+
+
+
 </style>

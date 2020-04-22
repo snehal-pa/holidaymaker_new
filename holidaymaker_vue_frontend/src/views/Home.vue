@@ -1,56 +1,67 @@
 <template>
   <div class="container">
+    <header>
+      <nav class="nav d-flex justify-content-center">
+        <router-link to="/about" class="text-sm-right nav-link">About us</router-link>
+        <router-link to="/contact" class="text-sm-right nav-link">Contact us</router-link>
+        <router-link to="/login" class="text-sm-right nav-link">Login</router-link>
+        <router-link to="/allrooms" class="text-sm-right nav-link">All rooms</router-link>
+      </nav>
+    </header>
+    <hr class="bg-warning" />
+
+    <main>
+      <router-view />
+    </main>
     <form class="row inputs pb-3">
-      <div class="col d-flex flex-column">
+      <div class="col-xs-12 col-md-3 col-lg-2 d-flex flex-column">
         <label class="mb-2" for="locations">Locations</label>
         <select class="custom-select" id="locations" v-model="selectedLocation">
           <option v-for="location in allLocations" :key="location.id">{{location}}</option>
         </select>
       </div>
-      <div class="col d-flex flex-column">
+      <div class="col-xs-12 col-md-3 col-lg-2 d-flex flex-column">
         <label class="mb-2" for="people">Guests</label>
         <select class="custom-select" id="locations" v-model="selectedPeople">
           <option v-for="i in 10" :key="i">{{i}}</option>
         </select>
       </div>
-      <div class="col d-flex flex-column">
+      <div class="col-xs-12 col-md-3 col-lg-3 d-flex flex-column">
         <label for="check-in">Check-in</label>
         <input class="custom-select" id="check-in" type="date" v-model="check_in" />
       </div>
-      <div class="col d-flex flex-column">
+      <div class="col-xs-12 col-md-3 col-lg-3 d-flex flex-column">
         <label for="check-out">Check-out</label>
         <input class="custom-select" id="check-out" type="date" v-model="check_out" />
       </div>
-      <div class="col">
-        <button
-          type="button"
-          class="btn btn-warning btn-lg mt-4"
-          @click="filterRoom"
-        >Check avaibility</button>
+      <div class="col-xs-12 col-md-5 col-lg-2 justify-content-center">
+        <button type="button" class="btn btn-lg mt-4" @click="filterRoom">Check avaibility</button>
       </div>
     </form>
-    <div class="row  d-flex justify-content-around">
-      <button type="button" class="btn btn-warning btn-sm" @click="showAll"> All rooms</button>
-    </div>
-    
+
     <hr class="bg-warning" />
     <section class="container" v-if="showGallary">
       <div class="row">
-        <aside class="col-3 mt-5">
+        <aside class="col-lg-3 mt-5">
           <h4>Facilities</h4>
           <br />
-          <form action="/action_page.php">
+          <form>
             <div v-for="f in allFacilities" :key="f.id">
-              <input type="checkbox" v-model="checkedFacilities" :value="f.name" />
+              <input
+                class="option-input checkbox"
+                type="checkbox"
+                v-model="checkedFacilities"
+                :value="f.name"
+              />
               <label :for="f">{{ f.name }}</label>
               <br />
             </div>
 
             <br />
-            <button class="btn btn-warning btn-sm" type="button" @click="filterByFacility">check</button>
+            <button class="btn btn-sm" type="button" @click="filterByFacility">check</button>
           </form>
         </aside>
-        <div class="col-9">
+        <div class="col-lg-9">
           <Room
             v-for="room in filteredRooms"
             :key="room.id"
@@ -110,58 +121,85 @@ export default {
     /*...mapMutations([]),*/
     ...mapActions([
       "getRooms",
-      "roomStatusChanged",
+      "roomStatusChangedToTrue",
+      "roomStatusChangedToFalse",
       "getBookings",
       "getFacilities",
       "getHotels",
-      "addToBookingStore"
+      "addToBookingStore",
+      "changeStatusFalse"
     ]),
 
-    ...mapMutations(["SET_ROOM_ID","SET_CHECK_IN","SET_CHECK_OUT","setSelectedRoom"]),
+    ...mapMutations([
+      "SET_ROOM_ID",
+      "SET_CHECK_IN",
+      "SET_CHECK_OUT",
+      "setSelectedRoom"
+    ]),
 
-    showAll(e){
+    showAll(e) {
       e.preventDefault();
+
       this.showGallary = true;
-      this.filteredRooms = this.allRooms
+      this.filteredRooms = this.allRooms;
     },
 
     addToBooking(room) {
-      this.SET_ROOM_ID(room.id)
-      this.SET_CHECK_IN(this.check_in)
-      this.SET_CHECK_OUT(this.check_out)
-      this.setSelectedRoom(room)
+      this.SET_ROOM_ID(room.id);
+      this.SET_CHECK_IN(this.check_in);
+      this.SET_CHECK_OUT(this.check_out);
+      this.setSelectedRoom(room);
       //this.check_in =""
       //this.check_out =""
       //this.roomStatusChanged(room);
     },
 
+    filterRoom(e) {
+      e.preventDefault();
+      /*
+      for (let r of this.allRooms) {
+        if (r.booked == true) {
+          this.roomStatusChangedToFalse(r);
+        }
+      }*/
+      if (this.check_in != "" && this.check_out != "") {
+        this.filteredRooms = [];
+        this.filteredRooms = this.allRooms;
+        if (this.selectedLocation != "") {
+          this.filteredRooms = this.filteredRooms.filter(
+            r => r.hotel.location == this.selectedLocation
+          );
+        }
+        if (this.selectedPeople != "") {
+          this.filteredRooms = this.filteredRooms.filter(
+            r => r.maxPeople >= this.selectedPeople
+          );
+        }
+        console.log("Location", this.selectedLocation);
+        console.log("People", this.selectedPeople);
 
-    filterRoom() {
-      this.filteredRooms =[];
-      this.filteredRooms = this.allRooms;
-      if (this.selectedLocation != "") {
-        this.filteredRooms = this.filteredRooms.filter(
-          r => r.hotel.location == this.selectedLocation
+        const sameDateBookings = this.allBookings.filter(
+          b =>
+            (this.check_in >= b.check_in && this.check_in < b.check_out) ||
+            (this.check_out >= b.check_in && this.check_out < b.check_out) ||
+            (this.check_in <= b.check_in && this.check_out >= b.check_out)
         );
-      }
-      if (this.selectedPeople != "") {
-        this.filteredRooms = this.filteredRooms.filter(
-          r => r.maxPeople >= this.selectedPeople
-        );
-      }
-      console.log("Location", this.selectedLocation);
-      console.log("People", this.selectedPeople);
+        console.log(sameDateBookings);
 
-      const sameDateBookings = this.allBookings.filter(
-        b => this.check_in >= b.check_in && this.check_in < b.check_out
-      );
-      console.log(sameDateBookings);
-
-      for (let b of sameDateBookings) {
-        for (let i = 0; i < this.filteredRooms.length; i++) {
-          if (this.filteredRooms[i].id == b.room.id) {
-            this.filteredRooms.splice(i, 1);
+        for (let b of sameDateBookings) {
+          for (let i = 0; i < this.filteredRooms.length; i++) {
+            if (this.filteredRooms[i].id == b.room.id) {
+              //this.roomStatusChangedToTrue(this.filteredRooms[i]);
+              this.filteredRooms.splice(i, 1);
+            }
           }
+        }
+      } else {
+        if (this.check_in == "") {
+          alert("Please enter check-in date");
+        }
+        if (this.check_out == "") {
+          alert("Please enter check-out date");
         }
       }
 
@@ -192,8 +230,7 @@ export default {
         }
       }
       console.log("filter by facility", this.filteredRoomsByFacility);
-      this.filteredRooms = this.filteredRoomsByFacility
-
+      this.filteredRooms = this.filteredRoomsByFacility;
     }
   },
   created() {

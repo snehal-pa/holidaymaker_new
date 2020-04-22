@@ -23,16 +23,8 @@ export default {
 };
 </script>
 
-    <section class="d-flex justify-content-between">
+                <strong> WELCOME <b class="text-danger">{{getCurrentCustomer.firstName}} {{getCurrentCustomer.lastName}}</b> to Holiday-maker</strong>
 
-                <ul v-for="c in checkedFacilities" :key="c"><li>{{c}}</li></ul>
-
-
-                      <i class="fas fa-star" v-for="k in room.rating" :key="k"></i>
-      <i class="far fa-star" v-for="j in (5 -room.rating)" :key="j"></i>
-
-              <div class="text-center mt-4">
-
-
+ 
 
 
