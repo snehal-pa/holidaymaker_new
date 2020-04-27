@@ -13,7 +13,7 @@ async function fetch2(url, method = "GET", body) {
 }
 
 async function fetch3(body) {
-  const response = await fetch("http://localhost:2020/signup", {
+  const response = await fetch("http://localhost:2020/customsignup", {
     method: "POST",
     body: JSON.stringify(body),
     headers: { "content-Type": "application/json" },
@@ -21,25 +21,12 @@ async function fetch3(body) {
   return response;
 }
 
-async function springLogin(user, pass) {
-  let username = user;
-  let password = pass;
-
-  const credentials =
-    "username=" +
-    encodeURIComponent(username) +
-    "&password=" +
-    encodeURIComponent(password);
-
-  let response = await fetch("http://localhost:2020/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: credentials,
-  });
-
-  if (response.url.includes("error")) {
-    console.log("Wrong username/password");
-  }
+function transformRequest(jsonData = {}){
+  return Object.entries(jsonData)
+    .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
+    .join('&');
 }
 
-export { fetch2, fetch3, springLogin };
+
+
+export { fetch2, fetch3,transformRequest };

@@ -1,14 +1,16 @@
-import { fetch2,fetch3 } from "@/helper";
+import { fetch2,fetch3,transformRequest } from "@/helper";
 
 const state = {
     customers: [],
-    currentCustomer:null
+    currentCustomer:null,
+        
+    
     //logIn : true
  };
 
 const getters = {
   allCustomers: state => state.customers,
-  getCurrentCustomer: state => state.currentCustomer
+  getLoggedinUser: state => state.currentCustomer,
 };
 
 const actions = {
@@ -19,14 +21,32 @@ const actions = {
 
     async addCustomer({commit},customer){
         commit('addNewCustomer',await fetch3(customer))
-    }
-    
+    },
+
+
+    async springLoginn(credentials){
+      await fetch('http://localhost:2020/login', {
+        method: "POST",
+        body: transformRequest(credentials),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      })
+      .then(function(response) {
+        let successfulLogin = !response.url.includes("error");
+        console.log("the login result is:", successfulLogin);
+      });
+    },
+
+      async setCurrentCustomer({commit}){
+        let currentUser = await fetch2("customer/currentUser");
+        commit('SET_LOGGED_IN_USER',currentUser)
+      }
+      
 };
 
 const mutations = {
     setCustomers :(state,customers)=>(state.customers=customers),
     addNewCustomer:(state,newCust)=> state.customers.push(newCust),
-    SET_CURRENT_CUSTOMER:(state,currentC)=> state.currentCustomer =currentC
+    SET_LOGGED_IN_USER:(state,currentC)=> state.currentCustomer =currentC,
 };
 
 export default {

@@ -18,27 +18,25 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors().disable()
-                .csrf().disable()
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                //.antMatchers("/rest/customer").authenticated()
-                .antMatchers(HttpMethod.POST, "/rest/bookings").authenticated()
-                //.antMatchers(HttpMethod.POST,"/rest/customer").permitAll()
+
+        http.authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .and()
-//                .formLogin()
-//                .loginPage("/login")
+                .and().formLogin().permitAll()
+                .and().csrf().disable()
+
+//                .httpBasic()
+//                .and()
 //                .authorizeRequests()
+//                .antMatchers("/rest/customer").authenticated()
+//                //.antMatchers(HttpMethod.POST, "/rest/bookings").authenticated()
+//                //.antMatchers(HttpMethod.POST,"/rest/customer").permitAll()
 //                .antMatchers("/**").permitAll()
+//                .and()
+//                .formLogin()
+//                .disable()
+//                .loginPage("/login")
 //                .anyRequest().authenticated()
 //                .and()
-                .formLogin()
-                .permitAll()
-
-//                .loginPage("/login")
 //                .permitAll()
 //                .and()
 //                .logout()

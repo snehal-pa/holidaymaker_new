@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-if="logIn" id="login" class="border border-warning my-3 w-xs-100 w-50">
-      <form action class="my-form">
-        <p class=" h4 text-center mb-4">Log in</p>
-        <span v-if="emailNotFound">Wrong email-id</span>
+      <form v-if="!getLoggedinUser" class="my-form">
+        <p class="h2 text-center mb-4">Log in</p>
+        <h4 v-if="emailNotFound" class="text-center text-warning">Wrong Email or Password</h4>
         <!-- Email address -->
         <div class="md-form">
           <i class="fas fa-envelope prefix pr-2"></i>
@@ -22,10 +22,9 @@
             v-model="loginUser.password"
           />
         </div>
-        <div  class="text-center mt-4">
-          <button class="btn btn-lg"  @click="springSignIn">Login</button>
+        <div class="text-center mt-4">
+          <button class="btn btn-lg" @click="signIn">Login</button>
         </div>
-        <router-link v-if="found" to="/booking">go to your reservation</router-link>
 
         <hr class="bg-warning mt-5" />
         <div class="d-flex justify-content-end">
@@ -33,20 +32,30 @@
           <button type="button" @click="logIn=false">Sign up</button>
         </div>
       </form>
+      <div v-if="getLoggedinUser">
+        <h3>Hey {{getLoggedinUser.firstName}}, you are logged in</h3>
+        <div v-if="getSelectedRoom">
+          <router-link to="/booking" class="text-warning">Check your reservation</router-link>
+        </div>
+      </div>
     </div>
     <div v-if="!logIn">
-      <Signup :errors="errors" :signUpUser="signUpUser" :checkForm="checkForm"></Signup>
-    </div>
-    <div v-if="showLoginButton">
-      <hr class="bg-warning mt-5" />
-      <P>Hey {{registeredFirstName}}! Welcome to Holiday-maker</P>
-      <button type="button" class="btn btn-outline-warning" @click="showLoginPage">Log in</button>
+      <div v-if="showWelcome">
+        <P>Hey {{registeredFirstName}}! Welcome to Holiday-maker</P>
+      </div>
+
+      <Signup
+        :errors="errors"
+        :signUpUser="signUpUser"
+        :checkForm="checkForm"
+        :showLoginPage="showLoginPage"
+      ></Signup>
     </div>
   </div>
 </template>
 
 <script>
-import { springLogin, fetch2 } from "@/helper";
+//import {/* transformRequest ,*/ fetch2 } from "@/helper";
 
 import Signup from "@/components/Signup";
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
@@ -55,20 +64,19 @@ export default {
   components: {
     Signup
   },
-
   computed: {
     ...mapState(["customers"]),
-    ...mapGetters(["allCustomers", "getCheckedFacilities"])
+    ...mapGetters(["allCustomers", "getLoggedinUser", "getSelectedRoom"])
   },
 
   data() {
     return {
       logIn: true,
       errors: [],
-      showLoginButton: false,
+      showWelcome: false,
       registeredFirstName: "",
       emailNotFound: false,
-      found:false,
+      currentUserLoggedIn: false,
 
       loginUser: {
         email: "",
@@ -84,20 +92,90 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getCustomers", "addCustomer", "addToBookingStore"]),
-    ...mapMutations(["SET_CUST_ID", "SET_CURRENT_CUSTOMER"]),
+    ...mapActions([
+      "getCustomers",
+      "addCustomer",
+      "springLogin",
+      "springLoginn"
+    ]),
+    ...mapMutations(["SET_LOGGED_IN_USER"]),
 
-    async springSignIn(e) {
+    async signIn(e) {
       e.preventDefault();
-      const customer = await fetch2("customer/" + this.loginUser.email);
-      if (customer != null) {
-        springLogin(this.loginUser.email, this.loginUser.password);
-        this.SET_CUST_ID(customer.id);
-        this.SET_CURRENT_CUSTOMER(customer);
-        this.found =true
-      } else {
+
+      const credentials = {
+        email: this.loginUser.email,
+        password: this.loginUser.password
+      };
+
+      let response = await fetch("http://localhost:2020/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials)
+      });
+      try {
+        let currentUser = await response.json();
+        console.log(currentUser);
+        this.SET_LOGGED_IN_USER(currentUser);
+      } catch {
         this.emailNotFound = true;
+        console.log("Wrong username/password");
       }
+
+      /*let r = await fetch("http://localhost:2020/currentuser");
+      const currentuser = await r.json();
+      this.SET_LOGGED_IN_USER(currentuser);*/
+
+      /*
+      ---------------------------------------------------------------------------------------------------------*/
+      /*
+      await fetch("http://localhost:2020/login", {
+        method: "POST",
+        mode:"no-cors",
+        body: transformRequest({ email: this.loginUser.email, password: this.loginUser.password }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      }).then(function(response) {
+        let successfulLogin = !response.url.includes("error");
+        console.log("the login result is:", successfulLogin);
+        console.log(response)
+      });
+      let user = await fetch("http://localhost:2020/rest/customer/currentUser")
+      this.SET_LOGGED_IN_USER(user);
+      
+
+      /* 
+      ---------------------------------------------------------------------------------------------*/
+      /*
+      let username = this.loginUser.email;
+      let password = this.loginUser.password;
+
+      const credentials =
+        "email=" +
+        encodeURIComponent(username) +
+        "&password=" +
+        encodeURIComponent(password);
+
+      let response = await fetch("http://localhost:2020/login", {
+        method: "POST",
+        mode:"no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: credentials
+      });
+
+      if (response.url.includes("error")) {
+        console.log("Wrong username/password");
+      }
+      const user = await fetch2("customer/currentUser")
+       this.SET_LOGGED_IN_USER(user);
+       
+       /*
+       ----------------------------------------------------------------------------------------
+       */
+
+      //const customer = await fetch2("customer/" + this.loginUser.email);
+      //console.log(customer)
+
+      /*this.SET_LOGGED_IN_USER(customer);*/
     },
 
     checkForm(e) {
@@ -108,7 +186,7 @@ export default {
         this.signUpUser.email != "" &&
         this.signUpUser.password != ""
       ) {
-        this.showLoginButton = true;
+        this.showWelcome = true;
         this.registerThisCustomer();
         this.registeredFirstName = this.signUpUser.firstName;
         this.clearForm();
@@ -128,13 +206,14 @@ export default {
       }
     },
 
-    registerThisCustomer() {
+    async registerThisCustomer() {
       const newCustomer = {
         firstName: this.signUpUser.firstName,
         lastName: this.signUpUser.lastName,
         email: this.signUpUser.email,
         password: this.signUpUser.password
       };
+
       this.addCustomer(newCustomer);
       console.log("Hey " + this.signUpUser.firstName + " you are registered");
       /*e.preventDefault();*/
@@ -143,7 +222,7 @@ export default {
     showLoginPage(e) {
       e.preventDefault();
       this.logIn = true;
-      this.showLoginButton = false;
+      this.showWelcome = false;
     },
 
     clearForm() {
@@ -152,14 +231,13 @@ export default {
         (this.signUpUser.email = ""),
         (this.signUpUser.password = "");
     }
-
-   }
+  }
 };
 </script>
 
 <style scoped>
 #login {
-  width: 500px;
+  /*width: 500px;*/
   margin: auto;
   padding: 20px;
 }

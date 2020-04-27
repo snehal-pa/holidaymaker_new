@@ -20,6 +20,8 @@ public class Booking {
     //private int roomId;
     private LocalDate check_in;
     private LocalDate check_out;
+    private double totalPrice;
+
     private String addition;
 
     public  Booking(){}
@@ -66,6 +68,14 @@ public class Booking {
 
     public void setCheck_out(LocalDate check_out) {
         this.check_out = check_out;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getAddition() {

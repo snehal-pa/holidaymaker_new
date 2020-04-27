@@ -45,6 +45,11 @@ public class Customer {
         return id;
     }
 
+    public Customer(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public void setId(long id) {
         this.id = id;
     }

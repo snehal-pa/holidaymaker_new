@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header>
+    <!-- <header>
       <nav class="nav d-flex justify-content-center">
         <router-link to="/about" class="text-sm-right nav-link">About us</router-link>
         <router-link to="/contact" class="text-sm-right nav-link">Contact us</router-link>
@@ -8,7 +8,7 @@
         <router-link to="/allrooms" class="text-sm-right nav-link">All rooms</router-link>
       </nav>
     </header>
-    <hr class="bg-warning" />
+    <hr class="bg-warning" />-->
 
     <main>
       <router-view />
@@ -28,7 +28,12 @@
       </div>
       <div class="col-xs-12 col-md-3 col-lg-3 d-flex flex-column">
         <label for="check-in">Check-in</label>
-        <input class="custom-select" id="check-in" type="date" v-model="check_in" />
+        <input
+          class="custom-select"
+          id="check-in"
+          type="date"
+          v-model="check_in"
+        />
       </div>
       <div class="col-xs-12 col-md-3 col-lg-3 d-flex flex-column">
         <label for="check-out">Check-out</label>
@@ -130,12 +135,7 @@ export default {
       "changeStatusFalse"
     ]),
 
-    ...mapMutations([
-      "SET_ROOM_ID",
-      "SET_CHECK_IN",
-      "SET_CHECK_OUT",
-      "setSelectedRoom"
-    ]),
+    ...mapMutations(["SET_CHECK_IN", "SET_CHECK_OUT", "setSelectedRoom"]),
 
     showAll(e) {
       e.preventDefault();
@@ -145,7 +145,7 @@ export default {
     },
 
     addToBooking(room) {
-      this.SET_ROOM_ID(room.id);
+      //this.SET_ROOM_ID(room.id);
       this.SET_CHECK_IN(this.check_in);
       this.SET_CHECK_OUT(this.check_out);
       this.setSelectedRoom(room);
@@ -156,13 +156,10 @@ export default {
 
     filterRoom(e) {
       e.preventDefault();
-      /*
-      for (let r of this.allRooms) {
-        if (r.booked == true) {
-          this.roomStatusChangedToFalse(r);
-        }
-      }*/
-      if (this.check_in != "" && this.check_out != "") {
+
+      if (this.checkDate()) {
+        this.showGallary = true;
+
         this.filteredRooms = [];
         this.filteredRooms = this.allRooms;
         if (this.selectedLocation != "") {
@@ -194,18 +191,41 @@ export default {
             }
           }
         }
-      } else {
-        if (this.check_in == "") {
-          alert("Please enter check-in date");
-        }
-        if (this.check_out == "") {
-          alert("Please enter check-out date");
-        }
       }
-
       console.log(this.filteredRooms);
+    },
 
-      this.showGallary = true;
+    checkDate() {
+      let inDate = new Date(this.check_in);
+      let outDate = new Date(this.check_out);
+      let now = new Date();
+      if (inDate < now || outDate < now) {
+        alert("Date must be in the future");
+        return false;
+      }
+      if (this.check_in == "" || this.check_out == "") {
+        alert("Enter check-in/check-out date");
+        return false;
+      }
+      if (this.check_in > this.check_out) {
+        alert("check-out date must be in future of check-in date");
+        return false;
+      }
+      return true;
+    },
+    
+    isValidDate() {
+      let d = new Date();
+      if (
+        this.check_in < d ||
+        this.check_out < d ||
+        this.check_out < this.check_in
+      ) {
+        alert("Wrong input of dates");
+        return false;
+      } else {
+        return true;
+      }
     },
 
     filterByFacility(e) {
@@ -237,6 +257,8 @@ export default {
     console.log(this.allRooms);
     console.log(this.allBookings);
     console.log(this.allHotels);
+    //let dateToCompare = moment(new Date(),"MMDDYYYY");
+    //console.log(dateToCompare);
   }
 };
 </script>

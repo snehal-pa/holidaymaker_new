@@ -6,6 +6,7 @@ import com.example.demo.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,8 +22,16 @@ public class BookingController {
 
     @PostMapping
     public Booking createBooking(@RequestBody Booking newBooking) {
+        List<Booking> oldBookings = bookingRepository.findByCustomerBookDate(newBooking.getCustomer().getId(), newBooking.getRoom().getId(), newBooking.getCheck_in());
+        if (oldBookings.size() == 0) {
+            return bookingRepository.save(newBooking);
+        }else{
+            System.out.println("duplicate booking, cant add");
+            return null;
+        }
 
-        return bookingRepository.save(newBooking);
+
+
     }
 
     @GetMapping("{id}")
@@ -30,6 +39,10 @@ public class BookingController {
         return bookingRepository.findById(id);
     }
 
+    @GetMapping("customer/{id}")
+    public List<Booking> getBookingsByCustomer(@PathVariable int id) {
+        return bookingRepository.findByCustomer(id);
+    }
 
     @DeleteMapping("all")
     private void deleteAllBooking() {

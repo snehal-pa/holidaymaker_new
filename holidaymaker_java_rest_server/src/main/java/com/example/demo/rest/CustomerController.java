@@ -2,19 +2,16 @@ package com.example.demo.rest;
 
 import com.example.demo.entity.Customer;
 import com.example.demo.repository.CustomerRepository;
-import com.example.demo.service.UserService;
+import com.example.demo.service.SpringUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("rest/customer")
 public class CustomerController {
 
     @Autowired
-    private UserService userService;
+    private SpringUserService userService;
 
     @Autowired
     private CustomerRepository customerRepository;

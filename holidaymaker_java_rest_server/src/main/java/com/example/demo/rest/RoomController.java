@@ -5,6 +5,7 @@ import com.example.demo.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,41 +41,10 @@ public class RoomController {
         roomRepository.deleteById(id);
     }
 
-//    @PutMapping("{id}")
-//    public Room updateRoom(@RequestBody Room newRoom, @PathVariable int id) {
-//
-//        return roomRepository.findById(id)
-//                .map(room -> {
-//                    room.setType(newRoom.getType());
-//                    room.setHotel(newRoom.getHotel());
-//                    room.setPrice(newRoom.getPrice());
-//                    room.setRating(newRoom.getRating());
-//                    room.setMaxPeople(newRoom.getMaxPeople());
-//                    room.setBooked(newRoom.isBooked());
-//                    room.setImage(newRoom.getImage());
-//
-//                    room.setBooked(newRoom.isBooked());
-//                    return roomRepository.save(room);
-//                })
-//                .orElseGet(() -> {
-//                    newRoom.setId(id);
-//                    return roomRepository.save(newRoom);
-//                });
-//    }
-//
-    //    @PutMapping(value = "/{room}")
-//    public Room updateBooking(@ModelAttribute Room room, @RequestBody Room req) {
-//        room.setType(req.getType());
-//        room.setHotel(req.getHotel());
-//        room.setPrice(req.getPrice());
-//        room.setRating(req.getRating());
-//        room.setMaxPeople(req.getMaxPeople());
-//        room.setBooked(req.isBooked());
-//        room.setImage(req.getImage());
-//
-//        return room;
-//    }
-
+    @GetMapping("{people}/{location}")
+    private List<Room> getFilteredRoom( @PathVariable int people,@PathVariable String location){
+        return roomRepository.findByPeopleAndLocation(people,location);
+    }
 
 //    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 //    public Room updateById(@PathVariable("id") int id, @RequestBody Room newRoom) {

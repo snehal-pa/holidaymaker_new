@@ -32,7 +32,7 @@ label{
   font-family:Lobster ;
 }
 
-h1, h2, h3{
+h1, h2{
   font-family: Pacifico;
   margin:0;
 }
@@ -128,7 +128,7 @@ button {
 	padding:6px 24px;
 	text-decoration:none;
   text-shadow:0px 1px 0px #ffee66;
-  font-family: Pacifico
+  font-family: Jaldi
 }
 button:hover {
 	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
@@ -215,6 +215,4 @@ button:active {
 }
 
 
-
-        
 

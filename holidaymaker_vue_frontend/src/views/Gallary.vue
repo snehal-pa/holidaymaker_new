@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header>
+    <!-- <header>
       <nav class="nav d-flex justify-content-center">
         <router-link to="/about" class="text-sm-right nav-link">About us</router-link>
         <router-link to="/contact" class="text-sm-right nav-link">Contact us</router-link>
@@ -12,7 +12,7 @@
 
     <main>
       <router-view />
-    </main>
+    </main> -->
 
     <section class=" container all-Rooms">
       <div

@@ -1,9 +1,11 @@
 <template >
-  <div class="container"> 
+  <div class="container">
     <div
-      class="row room clearfix d-flex justify-content-between my-5 mx-2 border-bottom border-warning">
-      <div class="col-md-4 mb-3"><img class="w-100 h-100" src="..\assets\11.jpg" /></div>
-      
+      class="row room clearfix d-flex justify-content-between my-5 mx-2 border-bottom border-warning"
+    >
+      <div class="col-md-4 mb-3">
+        <img class="w-100 h-100" src="..\assets\11.jpg" />
+      </div>
 
       <div class="col-md-5 content mb-3">
         <strong>{{room.id}}</strong>
@@ -26,7 +28,7 @@
         <button disabled class="btn btn-danger btn-lg text-white">Not Available</button>
       </div>
       <div class="col-md-3" v-else>
-        <router-link to="/Login">
+        <router-link to="/signin">
           <button class="btn btn-warning btn-lg" @click="addToBooking(room)">Book now</button>
         </router-link>
       </div>

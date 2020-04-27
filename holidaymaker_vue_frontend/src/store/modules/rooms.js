@@ -3,13 +3,15 @@ import { fetch2 } from "@/helper";
 const state = {
   rooms: [],
   selectedRoom: null,
-  totalPrice: 0
+  totalPrice: 0,
+
 };
 
 const getters = {
   allRooms: (state) => state.rooms,
   getSelectedRoom: (state) => state.selectedRoom,
   getTotalPrice: (state) => state.totalPrice
+
 };
 
 const actions = {
@@ -34,6 +36,7 @@ const mutations = {
   SET_ROOMS: (state, rooms) => (state.rooms = rooms),
   setSelectedRoom: (state, selectedRoom) => (state.selectedRoom = selectedRoom),
   ADD_PRICE: (state, extraPrice) => state.totalPrice = state.selectedRoom.price+ extraPrice,
+
 };
 
 export default {

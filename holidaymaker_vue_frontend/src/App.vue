@@ -5,6 +5,22 @@
         <router-link to="/" class="flex-sm-fill flex-grow-1 text-sm-center nav-link active">
           <h1>Holiday-maker</h1>
         </router-link>
+        <router-link to="/allrooms" class="text-sm-right nav-link">All rooms</router-link>
+        <router-link to="/about" class="text-sm-right nav-link">About us</router-link>
+        <router-link to="/contact" class="text-sm-right nav-link">Contact us</router-link>
+        <router-link v-if="getLoggedinUser" to="/cart" class="text-sm-right nav-link">My booking(s)</router-link>
+        <router-link v-else to="/signin" class="text-sm-right nav-link">Login</router-link>
+      </nav>
+      <nav class="d-flex justify-content-end" v-if="getLoggedinUser">
+        <router-link to="/signin">
+          <p class="text-warning">
+            <i class="fas fa-user"></i>
+            {{getLoggedinUser.firstName}} {{getLoggedinUser.lastName}}
+          </p>
+        </router-link>
+        <router-link to="/" class="mx-4">
+          <p>Logout</p>
+        </router-link>
       </nav>
     </header>
     <hr class="bg-warning" />
@@ -14,12 +30,25 @@
     </main>
   </div>
 </template>
-
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   computed: {
-    ...mapState(["logIn"])
+    ...mapGetters(["getLoggedinUser"])
+  },
+  mounted() {
+    this.getLoggedinUser;
+  },
+  method: {
+    ...mapMutations(["SET_LOGGED_IN_USER"]),
+
+    async logOut(e) {
+      e.preventDefault();
+      let response = await fetch("http://localhost:2020/logout");
+      response = await response.json();
+      this.SET_LOGGED_IN_USER(response);
+      this.getLoggedinUser;
+    }
   }
 };
 </script>
