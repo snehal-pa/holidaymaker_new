@@ -12,20 +12,27 @@
 
     <main>
       <router-view />
-    </main> -->
+    </main>-->
 
-    <section class=" container all-Rooms">
+    <section class="container all-Rooms">
       <div
         v-for="room in allRooms"
         :key="room.id"
         class="row border-bottom d-flex justify-content-around my-5"
       >
-        <div class=" col-12 col-md-4 ">
-          <img class="w-100 h-100 mr-5 mb-5" src="..\assets\11.jpg" />
+        <div class="col-12 col-md-4">
+          <img class="w-100 h-100 mr-5 mb-5" :src="require('../assets/' + room.image + '.jpg')" />
         </div>
 
         <div class="col-6 col-md-4 content">
-          <strong>{{room.id}}</strong>
+          <p>
+            <strong>Room no: {{room.id}}</strong>
+          </p>
+
+          <p>
+            <strong>Room type:</strong>
+            {{room.type}}
+          </p>
           <p>
             <strong>Hotel :</strong>
             {{room.hotel.name}}, {{room.hotel.location}}

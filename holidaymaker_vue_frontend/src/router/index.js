@@ -9,6 +9,8 @@ import Gallary from "../views/Gallary.vue";
 import Cart from "../views/Cart.vue";
 import RoomDetail from "../views/RoomDetail.vue";
 import PageNotFound from "@/views/PageNotFound.vue";
+import Logout from "../components/Logout.vue";
+
 
 
 
@@ -56,6 +58,11 @@ const routes = [
     path:"/roomdetail/:id",
     name:"RoomDetail",
     component:RoomDetail,
+  },
+  {
+    path:"/logout",
+    name:"Logout",
+    component:Logout,
   },
   {
     path: "*",

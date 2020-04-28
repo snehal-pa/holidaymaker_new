@@ -76,12 +76,15 @@
           </div>
         </div>
         <div class="card-body d-flex justify-content-around">
+          <button v-if="bookingDone" class="btn-warning" disabled>Submitted</button>
+          <button v-else class="btn-warning" type="button" @click="addNewBooking">Submit</button>
+
           <router-link to="/cart">
-            <button class="btn-warning" type="button" @click="addNewBooking">Submit</button>
+            <h5
+              v-if="bookingDone"
+              class="text-warning font-weight-bolder loading"
+            >Reservation has been sent!</h5>
           </router-link>
-
-          <h5 v-if="bookingDone" class="text-warning font-weight-bolder">Reservation has been sent!</h5>
-
           <router-link to="/">
             <button class="btn-warning" type="button">Cancel</button>
           </router-link>
@@ -99,8 +102,7 @@ import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      bookingDone: false,
-      picked: { name: "Room only (extra charge = 0)", price: 0 },
+      picked: { name: "Room only (No extra charges)", price: 0 },
       phone: ""
       //picked: this.allPackages[0]
     };
@@ -120,11 +122,12 @@ export default {
       "getLoggedinUser",
       "getSelectedRoom",
       "getTotalPrice",
-      "allPackages"
+      "allPackages",
+      "bookingDone"
     ])
   },
   methods: {
-    ...mapMutations(["ADD_PRICE", "SET_PHONE"]),
+    ...mapMutations(["ADD_PRICE", "SET_PHONE", "SET_BOOKING_STATUS"]),
     ...mapActions(["addNewBookingToDb"]),
 
     acceptNumber() {
@@ -164,7 +167,7 @@ export default {
       this.SET_PHONE(this.phone);
       console.log(newBooking);
       this.addNewBookingToDb(newBooking);
-      this.bookingDone = true
+      this.SET_BOOKING_STATUS(true);
     }
   }
 };

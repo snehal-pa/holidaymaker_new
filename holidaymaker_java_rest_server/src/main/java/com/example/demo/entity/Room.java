@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Room {
@@ -19,17 +20,17 @@ public class Room {
     private int maxPeople;
     //private int maxKids;
     private boolean isBooked;
-    private int image;
-    @OneToOne(mappedBy = "room")
-    private Booking booking;
+    private String image;
+    @OneToMany(mappedBy = "room")
+    private Set<Booking> bookings;
 
     public Room(){}
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
 
     }
@@ -63,13 +64,6 @@ public class Room {
         this.type = type;
     }
 
-//    public String getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(String location) {
-//        this.location = location;
-//    }
 
     public double getPrice() {
         return price;

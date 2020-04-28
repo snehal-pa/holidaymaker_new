@@ -23,7 +23,7 @@
       <div class="col-xs-12 col-md-3 col-lg-2 d-flex flex-column">
         <label class="mb-2" for="people">Guests</label>
         <select class="custom-select" id="locations" v-model="selectedPeople">
-          <option v-for="i in 10" :key="i">{{i}}</option>
+          <option v-for="i in 6" :key="i">{{i}}</option>
         </select>
       </div>
       <div class="col-xs-12 col-md-3 col-lg-3 d-flex flex-column">
@@ -181,7 +181,7 @@ export default {
             (this.check_out >= b.check_in && this.check_out < b.check_out) ||
             (this.check_in <= b.check_in && this.check_out >= b.check_out)
         );
-        console.log(sameDateBookings);
+        console.log("Filter by dates",sameDateBookings);
 
         for (let b of sameDateBookings) {
           for (let i = 0; i < this.filteredRooms.length; i++) {

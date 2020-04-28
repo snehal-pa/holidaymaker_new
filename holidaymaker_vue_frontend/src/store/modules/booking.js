@@ -6,6 +6,7 @@ const state = {
   check_out: "",
   bookingsOfCurrentUser: [],
   phone:"",
+  isBookingDone: false,
 
 
   packages: [
@@ -24,7 +25,8 @@ const getters = {
   getCheckOut: (state) => state.check_out,
   allPackages: (state) => state.packages,
   getBookingsOfCurrentUser:(state)=> state.bookingsOfCurrentUser,
-  getPhoneNumber: (state) => state.phone
+  getPhoneNumber: (state) => state.phone,
+  bookingDone:(state) => state.isBookingDone,
 
 };
 
@@ -55,7 +57,8 @@ const mutations = {
   SET_CHECK_IN: (state, checkIn) => (state.check_in = checkIn),
   SET_CHECK_OUT: (state, checkOut) => (state.check_out = checkOut),
   SET_CURRENT_USER_BOOKING: (state,booking) =>(state.bookingsOfCurrentUser =booking),
-  SET_PHONE:(state,ph)=>state.phone=ph
+  SET_PHONE:(state,ph)=>state.phone=ph,
+  SET_BOOKING_STATUS:(state,status)=>(state.isBookingDone=status)
 
 };
 

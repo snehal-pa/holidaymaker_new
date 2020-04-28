@@ -14,7 +14,7 @@ public class Booking {
     @JoinColumn(name = "custId",referencedColumnName = "id",nullable = false)
     private Customer customer;
     //private int custId;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "roomId", referencedColumnName ="id",nullable = false)
     private Room room;
     //private int roomId;

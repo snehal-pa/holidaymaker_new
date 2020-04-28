@@ -31,10 +31,17 @@ public class CustomerController {
         return c;
     }
 
-    @GetMapping("/currentUser")
+    @GetMapping("/currentuser")
     public Customer currentUser(){
-        return userService.findCurrentUser();
+        Customer c = userService.findCurrentUser();
+        if(c!= null){
+            return c;
+        }
+        return null;
+
+
     }
+
 
     @PostMapping
     public Customer createUser(@RequestBody Customer customer) {

@@ -43,6 +43,8 @@ public class MyUserDetailsService implements UserDetailsService {
         if(customer == null){
             throw new UsernameNotFoundException("Login failed");
         }
+        System.out.println("logged in");
+        System.out.println(customer.getFirstName() + "  " +customer.getLastName());
         return toCustomerDetails(customer);
     }
 

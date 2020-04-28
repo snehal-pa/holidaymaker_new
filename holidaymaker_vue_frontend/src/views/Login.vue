@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="logIn" id="login" class="border border-warning my-3 w-xs-100 w-50">
-      <form v-if="!getLoggedinUser" class="my-form">
+      <form v-if="!getStatus" class="my-form">
         <p class="h2 text-center mb-4">Log in</p>
         <h4 v-if="emailNotFound" class="text-center text-warning">Wrong Email or Password</h4>
         <!-- Email address -->
@@ -29,10 +29,10 @@
         <hr class="bg-warning mt-5" />
         <div class="d-flex justify-content-end">
           <p class="mr-2 mt-2">Not a member?</p>
-          <button type="button" @click="logIn=false">Sign up</button>
+          <button type="submit" @click="logIn=false">Sign up</button>
         </div>
       </form>
-      <div v-if="getLoggedinUser">
+      <div v-if="getStatus">
         <h3>Hey {{getLoggedinUser.firstName}}, you are logged in</h3>
         <div v-if="getSelectedRoom">
           <router-link to="/booking" class="text-warning">Check your reservation</router-link>
@@ -55,7 +55,8 @@
 </template>
 
 <script>
-//import {/* transformRequest ,*/ fetch2 } from "@/helper";
+//import { transformRequest } from "@/helper";
+//import { fetch2 } from "@/helper";
 
 import Signup from "@/components/Signup";
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
@@ -66,7 +67,7 @@ export default {
   },
   computed: {
     ...mapState(["customers"]),
-    ...mapGetters(["allCustomers", "getLoggedinUser", "getSelectedRoom"])
+    ...mapGetters(["allCustomers", "getLoggedinUser", "getSelectedRoom","getStatus"])
   },
 
   data() {
@@ -98,10 +99,11 @@ export default {
       "springLogin",
       "springLoginn"
     ]),
-    ...mapMutations(["SET_LOGGED_IN_USER"]),
+    ...mapMutations(["SET_LOGGED_IN_USER","SET_STATUS"]),
 
     async signIn(e) {
       e.preventDefault();
+      
 
       const credentials = {
         email: this.loginUser.email,
@@ -117,6 +119,7 @@ export default {
         let currentUser = await response.json();
         console.log(currentUser);
         this.SET_LOGGED_IN_USER(currentUser);
+        this.SET_STATUS(true);
       } catch {
         this.emailNotFound = true;
         console.log("Wrong username/password");
@@ -127,21 +130,33 @@ export default {
       this.SET_LOGGED_IN_USER(currentuser);*/
 
       /*
+      (with transformRequest)
       ---------------------------------------------------------------------------------------------------------*/
       /*
-      await fetch("http://localhost:2020/login", {
+      await fetch("/login", {
         method: "POST",
-        mode:"no-cors",
-        body: transformRequest({ email: this.loginUser.email, password: this.loginUser.password }),
+        mode: "no-cors",
+        body: transformRequest({
+          username: this.loginUser.email,
+          password: this.loginUser.password
+        }),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       }).then(function(response) {
         let successfulLogin = !response.url.includes("error");
         console.log("the login result is:", successfulLogin);
-        console.log(response)
       });
-      let user = await fetch("http://localhost:2020/rest/customer/currentUser")
-      this.SET_LOGGED_IN_USER(user);
-      
+      let user = await fetch("/rest/customer/currentuser", {
+        mode: "no-cors",
+        credentials: "include"
+      });
+      if (user.url.includes("error")) {
+        this.emailNotFound = true;
+        console.log("Wrong username/password");
+      } else {
+        user = await user.json();
+        console.log(user);
+        this.SET_LOGGED_IN_USER(user);
+      }
 
       /* 
       ---------------------------------------------------------------------------------------------*/
@@ -166,16 +181,8 @@ export default {
         console.log("Wrong username/password");
       }
       const user = await fetch2("customer/currentUser")
-       this.SET_LOGGED_IN_USER(user);
+       this.SET_LOGGED_IN_USER(user);*/
        
-       /*
-       ----------------------------------------------------------------------------------------
-       */
-
-      //const customer = await fetch2("customer/" + this.loginUser.email);
-      //console.log(customer)
-
-      /*this.SET_LOGGED_IN_USER(customer);*/
     },
 
     checkForm(e) {

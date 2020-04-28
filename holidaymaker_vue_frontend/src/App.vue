@@ -3,22 +3,26 @@
     <header>
       <nav class="nav flex-column flex-sm-row">
         <router-link to="/" class="flex-sm-fill flex-grow-1 text-sm-center nav-link active">
-          <h1>Holiday-maker</h1>
+        <div> 
+          <h1>Bream & Hall</h1>
+        </div>
+          
+          
         </router-link>
         <router-link to="/allrooms" class="text-sm-right nav-link">All rooms</router-link>
         <router-link to="/about" class="text-sm-right nav-link">About us</router-link>
         <router-link to="/contact" class="text-sm-right nav-link">Contact us</router-link>
-        <router-link v-if="getLoggedinUser" to="/cart" class="text-sm-right nav-link">My booking(s)</router-link>
-        <router-link v-else to="/signin" class="text-sm-right nav-link">Login</router-link>
+        <router-link v-if="getStatus==true" to="/cart" class="text-sm-right nav-link">My booking(s)</router-link>
+        <router-link v-if="getStatus==false" to="/signin" class="text-sm-right nav-link">Login</router-link>
       </nav>
-      <nav class="d-flex justify-content-end" v-if="getLoggedinUser">
+      <nav class="d-flex justify-content-end" v-if="getStatus== true">
         <router-link to="/signin">
           <p class="text-warning">
             <i class="fas fa-user"></i>
             {{getLoggedinUser.firstName}} {{getLoggedinUser.lastName}}
           </p>
         </router-link>
-        <router-link to="/" class="mx-4">
+        <router-link to="/logout" class="mx-4">
           <p>Logout</p>
         </router-link>
       </nav>
@@ -31,10 +35,11 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapState,mapGetters, mapMutations } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["getLoggedinUser"])
+    ...mapState([]),
+    ...mapGetters(["getLoggedinUser","getStatus"])
   },
   mounted() {
     this.getLoggedinUser;

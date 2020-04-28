@@ -17,7 +17,9 @@ public class SpringUserService {
 
     public Customer findCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return customerRepository.findByEmail(username);
+        Customer c =customerRepository.findByEmail(username);
+        System.out.println("from findCurrentUser  " + c.getFirstName() + " " + c.getLastName());
+        return c;
     }
 
     public Customer registerUser(Customer customer) {
