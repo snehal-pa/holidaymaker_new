@@ -76,7 +76,7 @@
           </div>
         </div>
         <div class="card-body d-flex justify-content-around">
-          <button v-if="bookingDone" class="btn-warning" disabled>Submitted</button>
+          <button v-if="bookingDone" class="btn disabled">Submitted</button>
           <button v-else class="btn-warning" type="button" @click="addNewBooking">Submit</button>
 
           <router-link to="/cart">
@@ -168,7 +168,7 @@ export default {
       console.log(newBooking);
       this.addNewBookingToDb(newBooking);
       this.SET_BOOKING_STATUS(true);
-    }
+     }
   }
 };
 </script>

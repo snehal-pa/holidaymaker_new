@@ -32,10 +32,11 @@
       <div class="col-md-3 text-center" v-if="room.booked">
         <button disabled class="btn btn-danger btn-lg text-white">Not Available</button>
       </div>
-      <div class="col-md-3 text-center" v-else>
+      <div class="col-md-3 text-center d-flex flex-column justify-content-around" v-else>
         <router-link to="/signin">
           <button class="btn btn-warning btn-lg" @click="addToBooking(room)">Book now</button>
         </router-link>
+        
       </div>
     </div>
   </div>

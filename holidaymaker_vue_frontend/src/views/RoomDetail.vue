@@ -8,7 +8,7 @@
         <div class="col-12 d-flex flex-column text-center">
           <div class="m-3">
             <p class="h3">
-              <strong>Room: {{room.id}}</strong>
+              <router-link to="/"> <strong>Room: {{room.id}}</strong></router-link>
             </p>
 
             <p>

@@ -28,24 +28,39 @@
       </div>
       <div class="col-xs-12 col-md-3 col-lg-3 d-flex flex-column">
         <label for="check-in">Check-in</label>
-        <input
-          class="custom-select"
-          id="check-in"
-          type="date"
-          v-model="check_in"
-        />
+        <input class="custom-select" id="check-in" type="date" v-model="check_in" />
       </div>
       <div class="col-xs-12 col-md-3 col-lg-3 d-flex flex-column">
         <label for="check-out">Check-out</label>
         <input class="custom-select" id="check-out" type="date" v-model="check_out" />
       </div>
       <div class="col-xs-12 col-md-5 col-lg-2 justify-content-center">
-        <button type="button" class="btn btn-lg mt-4" @click="filterRoom">Check avaibility</button>
+        <button type="button" class="btn btn-lg mt-4" @click="checkAvaibility">Check avaibility</button>
       </div>
     </form>
 
     <hr class="bg-warning" />
     <section class="container" v-if="showGallary">
+      <div class="row d-flex justify-content-end">
+        <div class="px-2 mx-2">
+          <p>Price</p>
+          <button type="button" class="btn btn-sm" @click="sortPriceDown">
+            <i class="fas fa-long-arrow-alt-down"></i>
+          </button>
+          <button type="button" class="btn btn-sm" @click="sortPriceUp">
+            <i class="fas fa-long-arrow-alt-up"></i>
+          </button>
+        </div>
+        <div class="px-2 mx-2">
+          <p>Rating</p>
+          <button type="button" class="btn btn-sm" @click="sortRatingDown">
+            <i class="fas fa-long-arrow-alt-down"></i>
+          </button>
+          <button type="button" class="btn btn-sm" @click="sortRatingUp">
+            <i class="fas fa-long-arrow-alt-up"></i>
+          </button>
+        </div>
+      </div>
       <div class="row">
         <aside class="col-lg-3 mt-5">
           <h4>Facilities</h4>
@@ -57,6 +72,7 @@
                 type="checkbox"
                 v-model="checkedFacilities"
                 :value="f.name"
+                @change="filterByFacility"
               />
               <label :for="f">{{ f.name }}</label>
               <br />
@@ -145,18 +161,18 @@ export default {
     },
 
     addToBooking(room) {
-      //this.SET_ROOM_ID(room.id);
       this.SET_CHECK_IN(this.check_in);
       this.SET_CHECK_OUT(this.check_out);
       this.setSelectedRoom(room);
-      //this.check_in =""
-      //this.check_out =""
-      //this.roomStatusChanged(room);
     },
 
-    filterRoom(e) {
+    checkAvaibility(e) {
       e.preventDefault();
+      this.checkedFacilities = [];
+      this.filterRoom();
+    },
 
+    filterRoom() {
       if (this.checkDate()) {
         this.showGallary = true;
 
@@ -181,7 +197,7 @@ export default {
             (this.check_out >= b.check_in && this.check_out < b.check_out) ||
             (this.check_in <= b.check_in && this.check_out >= b.check_out)
         );
-        console.log("Filter by dates",sameDateBookings);
+        console.log("Filter by dates", sameDateBookings);
 
         for (let b of sameDateBookings) {
           for (let i = 0; i < this.filteredRooms.length; i++) {
@@ -213,7 +229,7 @@ export default {
       }
       return true;
     },
-    
+
     isValidDate() {
       let d = new Date();
       if (
@@ -230,6 +246,7 @@ export default {
 
     filterByFacility(e) {
       e.preventDefault();
+      this.filterRoom();
       this.filteredHotels = [];
       this.filteredRoomsByFacility = [];
       for (let h of this.allHotels) {
@@ -251,6 +268,30 @@ export default {
       }
       console.log("filter by facility", this.filteredRoomsByFacility);
       this.filteredRooms = this.filteredRoomsByFacility;
+    },
+    sortPriceDown(e) {
+      e.preventDefault();
+      this.filteredRooms.sort(function(a, b) {
+        return b.price - a.price;
+      });
+    },
+    sortPriceUp(e) {
+      e.preventDefault();
+      this.filteredRooms.sort(function(a, b) {
+        return a.price - b.price;
+      });
+    },
+    sortRatingDown(e) {
+      e.preventDefault();
+      this.filteredRooms.sort(function(a, b) {
+        return b.rating - a.rating;
+      });
+    },
+    sortRatingUp(e) {
+      e.preventDefault();
+      this.filteredRooms.sort(function(a, b) {
+        return a.rating - b.rating;
+      });
     }
   },
   created() {

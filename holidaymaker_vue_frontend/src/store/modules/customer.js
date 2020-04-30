@@ -1,4 +1,4 @@
-import { fetch2, fetch3, transformRequest } from "@/helper";
+import { fetch2, fetch3/*, transformRequest */} from "@/helper";
 
 const state = {
   customers: [],
@@ -25,7 +25,7 @@ const actions = {
     commit("addNewCustomer", await fetch3(customer));
   },
 
-  async springLoginn(credentials) {
+  /*async springLoginn(credentials) {
     await fetch("http://localhost:2020/login", {
       method: "POST",
       body: transformRequest(credentials),
@@ -34,7 +34,7 @@ const actions = {
       let successfulLogin = !response.url.includes("error");
       console.log("the login result is:", successfulLogin);
     });
-  },
+  },*/
 
   async setCurrentCustomer({ commit }) {
     let currentUser = await fetch2("customer/currentUser");

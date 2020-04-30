@@ -28,7 +28,7 @@ public class LoginController {
         return userService.customRegister(customer);
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public Customer logout(){
         return userService.logOut();
     }

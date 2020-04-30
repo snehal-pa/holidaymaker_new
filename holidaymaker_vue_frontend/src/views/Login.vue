@@ -41,7 +41,7 @@
     </div>
     <div v-if="!logIn">
       <div v-if="showWelcome">
-        <P>Hey {{registeredFirstName}}! Welcome to Holiday-maker</P>
+        <P class="h3 text-center">Hey {{registeredFirstName}}! Welcome to Bream & Hall Holiday-maker</P>
       </div>
 
       <Signup

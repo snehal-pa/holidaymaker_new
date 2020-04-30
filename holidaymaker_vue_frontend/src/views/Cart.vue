@@ -22,29 +22,29 @@
           {{getLoggedinUser.email}}
         </p>
         <p v-if="getPhoneNumber">
-            <b>Phone:</b>
-            {{getPhoneNumber}}
+          <b>Phone:</b>
+          {{getPhoneNumber}}
         </p>
       </div>
     </div>
     <section v-if="getBookingsOfCurrentUser.length" class="container">
       <div class="row font-weight-bolder border-bottom mb-3 text-warning">
-        <p class="col-md-2">Hotel</p>
         <p class="col-md-2">Room No.</p>
+        <p class="col-md-2">Hotel</p>
         <p class="col-md-2">Check-In</p>
         <p class="col-md-2">Check-Out</p>
         <p class="col-md-2">Payment</p>
         <p class="col-md-2">Board</p>
       </div>
       <div class="row mb-3 border-bottom" v-for="b in getBookingsOfCurrentUser" :key="b.id">
-        <p class="col-md-2">{{b.room.hotel.name}},{{b.room.hotel.location}}</p>
         <router-link class="col-md-2" :to="'/roomdetail/'+ b.room.id">{{b.room.id}}</router-link>
+        <p class="col-md-2">{{b.room.hotel.name}},{{b.room.hotel.location}}</p>
         <p class="col-md-2">{{b.check_in}}</p>
         <p class="col-md-2">{{b.check_out}}</p>
         <p class="col-md-2">€{{b.totalPrice}}</p>
         <p class="col-md-2">{{b.addition}}</p>
         <div class="col-12 d-flex justify-content-center">
-          <button class="m-3">Update</button>
+          <!-- <button class="m-3">Update</button> -->
           <button class="m-3" @click="deleteB(b)">Delete</button>
         </div>
       </div>
@@ -60,7 +60,11 @@ import { fetch2 } from "@/helper";
 export default {
   computed: {
     ...mapState([]),
-    ...mapGetters(["getLoggedinUser", "getBookingsOfCurrentUser","getPhoneNumber"])
+    ...mapGetters([
+      "getLoggedinUser",
+      "getBookingsOfCurrentUser",
+      "getPhoneNumber"
+    ])
   },
 
   methods: {

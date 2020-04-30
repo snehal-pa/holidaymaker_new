@@ -29,7 +29,8 @@ aside label{
 }
 
 label{
-  font-family:Lobster ;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+  font:bolder;
 }
 
 h1, h2{
@@ -52,7 +53,8 @@ h1{
 
 
 nav a{
-  font-family: Lobster;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font: bold;
   font-size:120%;
   color:wheat;
   text-decoration: none;
@@ -137,6 +139,10 @@ button:hover {
 button:active {
 	position:relative;
 	top:1px;
+}
+button.disable {
+  background-color: red;
+  color: wheat;
 }
 
 
