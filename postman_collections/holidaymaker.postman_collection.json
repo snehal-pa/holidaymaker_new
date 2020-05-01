@@ -1,0 +1,984 @@
+{
+	"info": {
+		"_postman_id": "d9a4eea2-a99c-4067-ad18-cf325f2002d1",
+		"name": "holidaymaker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:2020/rest/customer",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "hi",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "se@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:2020/rest/customer",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"customer"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "localhost:2020/rest/customer",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2020/rest/customer",
+							"host": [
+								"localhost"
+							],
+							"port": "2020",
+							"path": [
+								"rest",
+								"customer"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Apr 2020 08:43:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 17,\n        \"firstName\": \"Rebecca\",\n        \"lastName\": \"petersson\",\n        \"email\": \"re@gmail.com\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Sia\",\n        \"lastName\": \"svensoon\",\n        \"email\": \"se@gmail.com\"\n    },\n    {\n        \"id\": 25,\n        \"firstName\": \"Chahna\",\n        \"lastName\": \"maheta\",\n        \"email\": \"chahna@gmail.com\"\n    },\n    {\n        \"id\": 26,\n        \"firstName\": \"Rushik\",\n        \"lastName\": \"dhaduk\",\n        \"email\": \"rushik@gmail.com\"\n    },\n    {\n        \"id\": 27,\n        \"firstName\": \"snehal\",\n        \"lastName\": \"Patel\",\n        \"email\": \"snehal@gmail.com\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "localhost:2020/rest/bookings",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "hi",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "se@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n\t{\r\n\t\t\"custId\": 30\r\n        \"roomId\": 643,\r\n        \"check_in\": 2020-05-01,\r\n        \"check_out\": 2020-05-05,\r\n        \"totalPrice\": 2000,\r\n        \"addition\": \"Bed and Breakfast\"\r\n\t}\r\n\t]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2020/rest/bookings/44",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"bookings",
+						"44"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/rest/hotel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:2020/rest/hotel",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"hotel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"firstName\": \"Chahna\",\r\n\t\"lastName\":\"maheta\",\r\n\t\"email\":\"chahna@gmail.com\",\r\n\t\"password\":\"chahna\"\r\n   \r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:2020/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/rest/customer/se@gmail.com",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"firstName\": \"Chahna\",\r\n\t\"lastName\":\"maheta\",\r\n\t\"email\":\"chahna@gmail.com\",\r\n\t\"password\":\"chahna\"\r\n   \r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:2020/rest/customer/sasrewe@gmail.com",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"customer",
+						"sasrewe@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/rest/customer/currentUser",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "bhavik",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "bhavik@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "bhavik@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "bhavik",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:2020/rest/customer/currentUser",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"customer",
+						"currentUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2020/auth/login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "hi",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "se@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n\t{\r\n\t\t\"custId\": 30\r\n        \"roomId\": 643,\r\n        \"check_in\": 2020-05-01,\r\n        \"check_out\": 2020-05-05,\r\n        \"totalPrice\": 2000,\r\n        \"addition\": \"Bed and Breakfast\"\r\n\t}\r\n\t]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2020/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2020/customsignup",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "hi",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "se@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n\t{\r\n\t\t\"custId\": 30\r\n        \"roomId\": 643,\r\n        \"check_in\": 2020-05-01,\r\n        \"check_out\": 2020-05-05,\r\n        \"totalPrice\": 2000,\r\n        \"addition\": \"Bed and Breakfast\"\r\n\t}\r\n\t]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2020/customsignup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"customsignup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/login",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "hi",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "se@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:2020/login",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "localhost:2020/rest/customer",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2020/rest/customer",
+							"host": [
+								"localhost"
+							],
+							"port": "2020",
+							"path": [
+								"rest",
+								"customer"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Apr 2020 08:43:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 17,\n        \"firstName\": \"Rebecca\",\n        \"lastName\": \"petersson\",\n        \"email\": \"re@gmail.com\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Sia\",\n        \"lastName\": \"svensoon\",\n        \"email\": \"se@gmail.com\"\n    },\n    {\n        \"id\": 25,\n        \"firstName\": \"Chahna\",\n        \"lastName\": \"maheta\",\n        \"email\": \"chahna@gmail.com\"\n    },\n    {\n        \"id\": 26,\n        \"firstName\": \"Rushik\",\n        \"lastName\": \"dhaduk\",\n        \"email\": \"rushik@gmail.com\"\n    },\n    {\n        \"id\": 27,\n        \"firstName\": \"snehal\",\n        \"lastName\": \"Patel\",\n        \"email\": \"snehal@gmail.com\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "localhost:2020/rest/bookings",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "hi",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "se@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:2020/rest/bookings",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"bookings"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "localhost:2020/rest/customer",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2020/rest/customer",
+							"host": [
+								"localhost"
+							],
+							"port": "2020",
+							"path": [
+								"rest",
+								"customer"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Apr 2020 08:43:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 17,\n        \"firstName\": \"Rebecca\",\n        \"lastName\": \"petersson\",\n        \"email\": \"re@gmail.com\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Sia\",\n        \"lastName\": \"svensoon\",\n        \"email\": \"se@gmail.com\"\n    },\n    {\n        \"id\": 25,\n        \"firstName\": \"Chahna\",\n        \"lastName\": \"maheta\",\n        \"email\": \"chahna@gmail.com\"\n    },\n    {\n        \"id\": 26,\n        \"firstName\": \"Rushik\",\n        \"lastName\": \"dhaduk\",\n        \"email\": \"rushik@gmail.com\"\n    },\n    {\n        \"id\": 27,\n        \"firstName\": \"snehal\",\n        \"lastName\": \"Patel\",\n        \"email\": \"snehal@gmail.com\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "localhost:2020/rest/customer",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "hi",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "se@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:2020/rest/customer",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"customer"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "localhost:2020/rest/customer",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2020/rest/customer",
+							"host": [
+								"localhost"
+							],
+							"port": "2020",
+							"path": [
+								"rest",
+								"customer"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Apr 2020 08:43:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 17,\n        \"firstName\": \"Rebecca\",\n        \"lastName\": \"petersson\",\n        \"email\": \"re@gmail.com\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Sia\",\n        \"lastName\": \"svensoon\",\n        \"email\": \"se@gmail.com\"\n    },\n    {\n        \"id\": 25,\n        \"firstName\": \"Chahna\",\n        \"lastName\": \"maheta\",\n        \"email\": \"chahna@gmail.com\"\n    },\n    {\n        \"id\": 26,\n        \"firstName\": \"Rushik\",\n        \"lastName\": \"dhaduk\",\n        \"email\": \"rushik@gmail.com\"\n    },\n    {\n        \"id\": 27,\n        \"firstName\": \"snehal\",\n        \"lastName\": \"Patel\",\n        \"email\": \"snehal@gmail.com\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:2020/rest/facility",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "hi",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "se@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n\t{\r\n\t\t\"custId\": 30\r\n        \"roomId\": 643,\r\n        \"check_in\": 2020-05-01,\r\n        \"check_out\": 2020-05-05,\r\n        \"totalPrice\": 2000,\r\n        \"addition\": \"Bed and Breakfast\"\r\n\t}\r\n\t]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2020/rest/facility",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"facility"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/rest/room",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:2020/rest/room",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"room"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"firstName\": \"Chahna\",\r\n\t\"lastName\":\"maheta\",\r\n\t\"email\":\"chahna@gmail.com\",\r\n\t\"password\":\"chahna\"\r\n   \r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:2020/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/rest/customer/se@gmail.com",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"firstName\": \"Chahna\",\r\n\t\"lastName\":\"maheta\",\r\n\t\"email\":\"chahna@gmail.com\",\r\n\t\"password\":\"chahna\"\r\n   \r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:2020/rest/customer/se@gmail.com",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"customer",
+						"se@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/rest/currentuser",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "bhavik",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "bhavik@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "bhavik@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "bhavik",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:2020/rest/currentuser",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"rest",
+						"currentuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:2020/currentuser",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "bhavik",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "bhavik@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "bhavik@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "bhavik",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:2020/currentuser",
+					"host": [
+						"localhost"
+					],
+					"port": "2020",
+					"path": [
+						"currentuser"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
