@@ -23,5 +23,8 @@ export default {
 };
 </script>
 
-    <section class="d-flex justify-content-between">
+                <strong> WELCOME <b class="text-danger">{{getCurrentCustomer.firstName}} {{getCurrentCustomer.lastName}}</b> to Holiday-maker</strong>
+
+ 
+
 

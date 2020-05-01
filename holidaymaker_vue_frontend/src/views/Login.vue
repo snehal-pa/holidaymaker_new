@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div v-if="logIn" id="login" class="border border-warning my-3 w-50">
-      <form action class="my-form">
-        <p class="h4 text-center mb-4">Log in</p>
+    <div v-if="logIn" id="login" class="border border-warning my-3 w-xs-100 w-50">
+      <form v-if="!getStatus" class="my-form">
+        <p class="h2 text-center mb-4">Log in</p>
+        <h4 v-if="emailNotFound" class="text-center text-warning">Wrong Email or Password</h4>
         <!-- Email address -->
         <div class="md-form">
           <i class="fas fa-envelope prefix pr-2"></i>
@@ -21,37 +22,62 @@
             v-model="loginUser.password"
           />
         </div>
-
         <div class="text-center mt-4">
-          <button class="btn btn-warning btn-lg" type="submit">Login</button>
+          <button class="btn btn-lg" @click="signIn">Login</button>
         </div>
+
         <hr class="bg-warning mt-5" />
-        <p>Not a member?</p>
-        <button type="button" class="btn btn-outline-warning" @click="logIn=false">Sign up</button>
+        <div class="d-flex justify-content-end">
+          <p class="mr-2 mt-2">Not a member?</p>
+          <button type="submit" @click="logIn=false">Sign up</button>
+        </div>
       </form>
+      <div v-if="getStatus">
+        <h3>Hey {{getLoggedinUser.firstName}}, you are logged in</h3>
+        <div v-if="getSelectedRoom">
+          <router-link to="/booking" class="text-warning">Check your reservation</router-link>
+        </div>
+      </div>
     </div>
     <div v-if="!logIn">
-      <Signup :errors="errors" :signUpUser="signUpUser" :checkForm="checkForm"></Signup>
-    </div>
-    <div v-if="showLoginButton">
-      <hr class="bg-warning mt-5" />
-      <P>You are registered</P>
-      <button type="button" class="btn btn-outline-warning" @click="logIn = true">Log in</button>
+      <div v-if="showWelcome">
+        <P class="h3 text-center">Hey {{registeredFirstName}}! Welcome to Bream & Hall Holiday-maker</P>
+      </div>
+
+      <Signup
+        :errors="errors"
+        :signUpUser="signUpUser"
+        :checkForm="checkForm"
+        :showLoginPage="showLoginPage"
+      ></Signup>
     </div>
   </div>
 </template>
 
 <script>
+//import { transformRequest } from "@/helper";
+//import { fetch2 } from "@/helper";
+
 import Signup from "@/components/Signup";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+
 export default {
   components: {
     Signup
   },
+  computed: {
+    ...mapState(["customers"]),
+    ...mapGetters(["allCustomers", "getLoggedinUser", "getSelectedRoom","getStatus"])
+  },
+
   data() {
     return {
       logIn: true,
       errors: [],
-      showLoginButton: false,
+      showWelcome: false,
+      registeredFirstName: "",
+      emailNotFound: false,
+      currentUserLoggedIn: false,
 
       loginUser: {
         email: "",
@@ -67,20 +93,114 @@ export default {
     };
   },
   methods: {
-    showSignupForm: function(e) {
-      this.logIn = false;
+    ...mapActions([
+      "getCustomers",
+      "addCustomer",
+      "springLogin",
+      "springLoginn"
+    ]),
+    ...mapMutations(["SET_LOGGED_IN_USER","SET_STATUS"]),
+
+    async signIn(e) {
       e.preventDefault();
+      
+
+      const credentials = {
+        email: this.loginUser.email,
+        password: this.loginUser.password
+      };
+
+      let response = await fetch("http://localhost:2020/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials)
+      });
+      try {
+        let currentUser = await response.json();
+        console.log(currentUser);
+        this.SET_LOGGED_IN_USER(currentUser);
+        this.SET_STATUS(true);
+      } catch {
+        this.emailNotFound = true;
+        console.log("Wrong username/password");
+      }
+
+      /*let r = await fetch("http://localhost:2020/currentuser");
+      const currentuser = await r.json();
+      this.SET_LOGGED_IN_USER(currentuser);*/
+
+      /*
+      (with transformRequest)
+      ---------------------------------------------------------------------------------------------------------*/
+      /*
+      await fetch("/login", {
+        method: "POST",
+        mode: "no-cors",
+        body: transformRequest({
+          username: this.loginUser.email,
+          password: this.loginUser.password
+        }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      }).then(function(response) {
+        let successfulLogin = !response.url.includes("error");
+        console.log("the login result is:", successfulLogin);
+      });
+      let user = await fetch("/rest/customer/currentuser", {
+        mode: "no-cors",
+        credentials: "include"
+      });
+      if (user.url.includes("error")) {
+        this.emailNotFound = true;
+        console.log("Wrong username/password");
+      } else {
+        user = await user.json();
+        console.log(user);
+        this.SET_LOGGED_IN_USER(user);
+      }
+
+      /* 
+      ---------------------------------------------------------------------------------------------*/
+      /*
+      let username = this.loginUser.email;
+      let password = this.loginUser.password;
+
+      const credentials =
+        "email=" +
+        encodeURIComponent(username) +
+        "&password=" +
+        encodeURIComponent(password);
+
+      let response = await fetch("http://localhost:2020/login", {
+        method: "POST",
+        mode:"no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: credentials
+      });
+
+      if (response.url.includes("error")) {
+        console.log("Wrong username/password");
+      }
+      const user = await fetch2("customer/currentUser")
+       this.SET_LOGGED_IN_USER(user);*/
+       
     },
-    checkForm: function(e) {
+
+    checkForm(e) {
+      e.preventDefault();
+
       if (
         this.signUpUser.firstName != "" &&
         this.signUpUser.email != "" &&
         this.signUpUser.password != ""
       ) {
-        this.showLoginButton = true;
+        this.showWelcome = true;
         this.registerThisCustomer();
+        this.registeredFirstName = this.signUpUser.firstName;
+        this.clearForm();
+
         return true;
       }
+      this.errors = [];
 
       if (this.signUpUser.firstName == "") {
         this.errors.push("Name required.");
@@ -91,29 +211,32 @@ export default {
       if (this.signUpUser.password == "") {
         this.errors.push("Password required.");
       }
-
-      e.preventDefault();
     },
 
-    registerThisCustomer: function() {
+    async registerThisCustomer() {
+      const newCustomer = {
+        firstName: this.signUpUser.firstName,
+        lastName: this.signUpUser.lastName,
+        email: this.signUpUser.email,
+        password: this.signUpUser.password
+      };
+
+      this.addCustomer(newCustomer);
       console.log("Hey " + this.signUpUser.firstName + " you are registered");
       /*e.preventDefault();*/
     },
 
-    login() {
-      if (this.loginUser.email != "" && this.loginUser.password != "") {
-        if (
-          this.loginUser.email == this.$parent.mockAccount.username &&
-          this.loginUser.password == this.$parent.mockAccount.password
-        ) {
-          this.$emit("authenticated", true);
-          this.$router.replace({ name: "secure" });
-        } else {
-          console.log("The username and / or password is incorrect");
-        }
-      } else {
-        console.log("A username and password must be present");
-      }
+    showLoginPage(e) {
+      e.preventDefault();
+      this.logIn = true;
+      this.showWelcome = false;
+    },
+
+    clearForm() {
+      (this.signUpUser.firstName = ""),
+        (this.signUpUser.lastName = ""),
+        (this.signUpUser.email = ""),
+        (this.signUpUser.password = "");
     }
   }
 };
@@ -121,12 +244,7 @@ export default {
 
 <style scoped>
 #login {
-  width: 500px;
-  margin: auto;
-  padding: 20px;
-}
-#signUp {
-  width: 500px;
+  /*width: 500px;*/
   margin: auto;
   padding: 20px;
 }

@@ -1,0 +1,24 @@
+<div class="col-md-1">
+          <span class="d-block d-sm-none">Room No:</span>
+          <router-link class="col-md-2" :to="'/roomdetail/'+ b.room.id">{{b.room.id}}</router-link>
+        </div>
+         <div class="col-md-2">
+          <span class="d-block d-sm-none">Hotel:</span>
+           <p class="col-md-2">{{b.room.hotel.name}},{{b.room.hotel.location}}</p>
+        </div>
+        <div class="col-md-2">
+          <span class="d-block d-sm-none">Check-in:</span>
+          <p class="col-md-2">{{b.check_in}}</p>
+        </div>
+        <div class="col-md-2">
+          <span class="d-block d-sm-none">Check-out:</span>
+           <p class="col-md-2">{{b.check_out}}</p>
+        </div>
+        <div class="col-md-2">
+          <span class="d-block d-sm-none">Payment:</span>
+          <p class="col-md-2">€{{b.totalPrice}}</p>
+        </div>
+        <div class="col-md-3">
+          <span class="d-block d-sm-none">Board:</span>
+          <p class="col-md-2">{{b.addition}}</p>
+        </div>

@@ -4,6 +4,16 @@ import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Login from "../views/Login.vue";
+import Booking from "../views/Booking.vue";
+import Gallary from "../views/Gallary.vue";
+import Cart from "../views/Cart.vue";
+import RoomDetail from "../views/RoomDetail.vue";
+import PageNotFound from "@/views/PageNotFound.vue";
+import Logout from "../components/Logout.vue";
+
+
+
+
 
 
 Vue.use(VueRouter);
@@ -22,16 +32,43 @@ const routes = [
   {
     path: "/about",
     name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: About,
   },
   {
-    path: "/login",
+    path: "/signin",
     name: "Login",
     component: Login,
   },
+  {
+    path : "/booking",
+    name: "Booking",
+    component: Booking,
+  },
+  {
+    path:"/allrooms",
+    name:"Gallary",
+    component:Gallary,
+  },
+  {
+    path:"/cart",
+    name:"Cart",
+    component:Cart,
+  },
+  {
+    path:"/roomdetail/:id",
+    name:"RoomDetail",
+    component:RoomDetail,
+  },
+  {
+    path:"/logout",
+    name:"Logout",
+    component:Logout,
+  },
+  {
+    path: "*",
+    name: "404 - Page not found",
+    component: PageNotFound
+  }
 ];
 
 const router = new VueRouter({
