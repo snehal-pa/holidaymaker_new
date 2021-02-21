@@ -23,19 +23,19 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     CustomerRepository customerRepository;
 
-    @PostConstruct
-    private void addDefaultCustomer(){
-        Customer exist = customerRepository.findByEmail("se@gmail.com");
-        if(exist != null){
-            return;
-        }
-        Customer c = new Customer("Sia","svensoon","se@gmail.com",getEncoder().encode("hi"));
-        try {
-            customerRepository.save(c);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
+//    @PostConstruct
+//    private void addDefaultCustomer(){
+//        Customer exist = customerRepository.findByEmail("se@gmail.com");
+//        if(exist != null){
+//            return;
+//        }
+//        Customer c = new Customer("Sia","svensoon","se@gmail.com",getEncoder().encode("hi"));
+//        try {
+//            customerRepository.save(c);
+//        }catch (Exception ex){
+//            ex.printStackTrace();
+//        }
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
