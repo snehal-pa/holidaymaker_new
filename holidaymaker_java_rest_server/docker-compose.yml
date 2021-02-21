@@ -1,0 +1,41 @@
+version: "3"
+services:
+  holidaymaker-db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-boot-mysql-network
+    restart: always
+
+    volumes:
+      - mysql-db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: holidaymakerDb
+      MYSQL_USER: snehal
+      MYSQL_ROOT_PASSWORD: secret
+
+  backend:
+    build: .
+    #      context: .
+    #      dockerfile: Dockerfile
+    networks:
+      - spring-boot-mysql-network
+
+    links:
+      - holidaymaker-db:mysql
+    ports:
+      - "2021:2020"
+    environment: # Pass environment variables to the service
+      SPRING_DATASOURCE_URL:jdbc: mysql://holidaymaker-db:3306/holidaymakerDb
+      SPRING_DATASOURCE_USERNAME: snehal
+      SPRING_DATASOURCE_PASSWORD: secret
+
+
+networks:
+  spring-boot-mysql-network:
+    driver: bridge
+
+volumes:
+  mysql-db:
+    driver: local
